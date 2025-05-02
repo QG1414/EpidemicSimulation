@@ -1,0 +1,41 @@
+{
+    "preset_name" : "Covid",
+
+    "symulation_params" : {
+        "chance_to_meet"    : {"0" : 0.4, "1" : 0.5, "2" : 0.1},
+        "symulations"       : 30,
+        "days"              : 90
+    },
+
+    "generation_params" : {
+        "size"              : 1000000000,
+        "epidemy_threshold" : 0.005
+    },
+
+    "curing_params" : {
+        "curing_min"   : 7,
+        "curing_max"   : 14,
+        "curing_prob"  : 0.97
+    },
+
+    "resistance_params" : {
+        "res_min" : 182,
+        "res_max" : 365
+    },
+
+    "epidemy_params" : {
+        "prob_to_infect"    : 0.4
+    },
+
+    "modifiers_params" : {
+        "hygiene"               : 4,
+        "population_control"    : 4,
+        "healthcare"            : 3,
+        "vaccines"              : true
+    },
+
+    "vaccines_params" : {
+        "population_vaccinated" : 0.65,
+        "day_of_vaccines"       : 20
+    }
+}
