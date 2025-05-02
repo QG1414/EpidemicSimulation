@@ -1,0 +1,28 @@
+from enum import Enum
+
+class EpidemyState( Enum ):
+    STABLE = 0
+    EPIDEMY = 1
+    ENDED = 2
+    
+class MODIF_LEVELS( Enum ):
+    VERY_BAD = 1.25
+    BAD = 1.10
+    NORMAL = 1
+    GOOD = 0.9
+    VERY_GOOD = 0.75
+
+class MODIF_ENABLED( Enum ):
+    ENABLED = True
+    DISABLED = False
+
+class MODIFIERS( Enum ):
+    HYGIENE = "HYGIENE"
+    POPULATION_CONTROL = "POPULATION"
+    HEALTHCARE = "HEALTHCARE"
+    VACCINES = "VACCINES"
+
+class VACCINES_PARAMS( Enum ):
+    VACCINES_PARAM = "VACCINES_PARAM"
+    POPULATION_VACCINATED = "POPULATION_VACCINATED"
+    DAY_OF_VACCINES = "DAY_OF_VACCINES"

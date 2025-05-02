@@ -1,0 +1,41 @@
+{
+    "preset_name" : "Plague",
+
+    "symulation_params" : {
+        "chance_to_meet"    : {"0" : 0.1, "1" : 0.3, "2" : 0.6},
+        "symulations"       : 30,
+        "days"              : 60
+    },
+
+    "generation_params" : {
+        "size"              : 450000000,
+        "epidemy_threshold" : 0.005
+    },
+
+    "curing_params" : {
+        "curing_min"   : 1,
+        "curing_max"   : 14,
+        "curing_prob"  : 0.2
+    },
+
+    "resistance_params" : {
+        "res_min" : 0,
+        "res_max" : 0
+    },
+
+    "epidemy_params" : {
+        "prob_to_infect"    : 0.8
+    },
+
+    "modifiers_params" : {
+        "hygiene"               : 0,
+        "population_control"    : 2,
+        "healthcare"            : 0,
+        "vaccines"              : false
+    },
+
+    "vaccines_params" : {
+        "population_vaccinated" : 0,
+        "day_of_vaccines"       : 0
+    }
+}
