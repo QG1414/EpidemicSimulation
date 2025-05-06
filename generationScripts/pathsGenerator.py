@@ -14,17 +14,22 @@ class PathsGeneratorCalculus:
     #region init
 
     def __init__( self, k : int, p : int, population : dict[int:float], created_generation : GenerationData, enable_cuda : bool = False, **kwargs ) -> None:
-        self.enable_cuda : bool = enable_cuda
         self.k : int = k
         self.p : int = p
+        self.generated : int = 0
         self.population : dict[int:float] = population
         self.population_keys : np.ndarray[int] = np.array(list(population.keys()))
         self.population_probabilities : np.ndarray[float] = np.array(list(population.values()))
         self.created_generation : GenerationData = created_generation
         self.__update_modifiers(**kwargs)
+        self.force_cancel = False
+        self.reset_data( enable_cuda )
+
+    def reset_data( self, enable_cuda ):
+        self.enable_cuda : bool = enable_cuda
         self.generations : list[Generation] = []
-        for _ in range(k):
-            self.generations.append( Generation( created_generation ) )
+        for _ in range(self.k):
+            self.generations.append( Generation( self.created_generation ) )
     
     def __update_modifiers( self, **kwargs ) -> None:
         hygiene_level : MODIF_LEVELS = kwargs.get(MODIFIERS.HYGIENE.value, MODIF_LEVELS.NORMAL)
@@ -96,6 +101,8 @@ class PathsGeneratorCalculus:
             sum_type = xp.int16
 
         for batch_start in range(0, N, batch_size):
+            if self.force_cancel:
+                return None
             current_batch_size = min(batch_size, N - batch_start)
 
             random_values = rng.random(current_batch_size)
@@ -121,15 +128,20 @@ class PathsGeneratorCalculus:
 
         for i in range(1, n+1):
             tmp_Z = self.__random_sum(tmp_Z, main_generation, i)
+            if self.force_cancel:
+                return None
             x.append(i)
             y.append(tmp_Z)
         return x, y
 
-    def generate_paths( self, n:int ) -> list[Generation]:
-        print("start generating simulations")
+    def generate_paths( self, n:int, visuals ) -> list[Generation]:
+        print(f"start generating simulations")
         for i in range(self.k):
             self.generations[i].add_path(self.__random_path(n,i))
+            if self.force_cancel:
+                return None
             print(f"symulation {i+1} / {self.k} finished")
+            visuals.update_visuals(i+1)
 
         return self.generations
     
@@ -141,11 +153,9 @@ class PathsGeneratorVisual:
     #region Init
 
     def __init__( self, n:int, k:int, preset_name: str = "" ) -> None:
+        self.ani = None
         self.preset_name : str = preset_name
         self.__set_calculus_vars( n, k )
-        self.__create_visual_vars()
-        plt.axis("equal")
-        self.__base_visuals()
     
     def __set_calculus_vars( self, n : int, k : int ) -> None:
         self.n : int = n
@@ -168,13 +178,12 @@ class PathsGeneratorVisual:
 
     #region hardVisuals
 
-    def set_scale( self, min : int , max : int, additional_top_max : int = 20, log : bool = True, linthresh : float = 0.5 ) -> None:
+    def set_scale( self, min : int , max : int, additional_top_max : int = 20, linthresh : float = 0.5, log = False) -> None:
         self.ax[0].set_xlim(0, self.n)
         self.ax[0].set_ylim(min,max+additional_top_max)
-        if log:
-            self.ax[0].set_yscale('symlog', linthresh=linthresh)
-    
-    def set_scale_log( self, log : bool = True, linthresh : float = 0.5 ) -> None:
+        self.__set_scale_log(log, linthresh)
+
+    def __set_scale_log( self, log : bool = True, linthresh : float = 0.5 ) -> None:
         if log:
             self.ax[0].set_yscale('symlog', linthresh=linthresh)
         else:
@@ -254,11 +263,15 @@ class PathsGeneratorVisual:
     
     #endregion Animation
 
-    def start_graphing( self, lines_data : list[Generation], animate : bool = True ) -> FuncAnimation | None:
-        ani = None
+    def restart_plot( self, symulation_name : str ):
+        self.preset_name = symulation_name
+        self.__create_visual_vars()
+        self.__base_visuals()
+        plt.axis("equal")
 
+    def start_graphing( self, lines_data : list[Generation], animate : bool = True ) -> FuncAnimation | None:
         if animate:
-            ani = FuncAnimation(
+            self.ani = FuncAnimation(
                 self.fig,
                 lambda frame : self.__update(frame, lines_data),
                 frames=(self.n * self.k)+1,
@@ -270,8 +283,8 @@ class PathsGeneratorVisual:
         else:
             for i, line in enumerate(self.lines):
                 line.set_data(lines_data[i].path_positions)
-            self.__calculate_pie_values(0, lines_data)
+            self.__calculate_pie_values(self.k, lines_data)
 
         plt.show()
-        return ani
+        return self.ani
     

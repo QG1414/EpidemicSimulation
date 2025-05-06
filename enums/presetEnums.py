@@ -5,6 +5,14 @@ class PRESETS( Enum ):
     SPANISH_FLU = "hiszpanka_preset.json"
     COVID = "covid_preset.json"
     VON_ECONOMO_ENCEPHALITIS = "zapalenie_mozgu_Economo_preset.json"
+    NONE = ""
+
+class PRESETS_NAMES( Enum ):
+    PLAGUE = "plague"
+    SPANISH_FLU = "spanish flu"
+    COVID = "covid"
+    VON_ECONOMO_ENCEPHALITIS = "Von Economo's Encephalitis"
+    NONE = "none"
 
 class PRESETS_BASE( Enum ):
     CPU = "presets\\cpu\\"

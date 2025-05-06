@@ -1,0 +1,271 @@
+<CustomSettings>:
+    on_enter: root.setup_data()
+
+    BoxLayout:
+        orientation:'vertical'
+        
+        Button:
+            text: 'back'
+            on_press:
+                root.manager.current = "plague_main_screen"
+                root.resize_window( *root.pos_adj.get_base_size() )
+
+        Label:
+            text:'Population Settings'
+            font_size: 25
+        
+        BoxLayout:
+            orientation: 'horizontal'
+
+            BoxLayout:
+                orientation: 'vertical'
+
+                Label:
+                    text:'Generation size'
+                    font_size: 15
+                    size_hint: (1,0.2)
+
+                TextInput:
+                    id: generationSize
+                    hint_text: 'Generation Size'
+                    input_filter: "int"
+                    multiline: False
+            
+            BoxLayout:
+                orientation: 'vertical'
+
+                Label:
+                    text:'Chance to meet'
+                    font_size: 15
+                    size_hint: (1,0.2)
+
+                TextInput:
+                    id: ChanceToMeet
+                    hint_text: 'Chance to meet people'
+                    multiline: True
+        
+        BoxLayout:
+            orientation:'horizontal'
+
+            BoxLayout:
+                orientation:'vertical'
+                Label:
+                    text:'Days to simulate'
+                    font_size: 15
+                    size_hint: (1,0.2)
+
+                TextInput:
+                    id: daysToSimulate
+                    hint_text: 'Days to simulate'
+                    input_filter: "int"
+                    multiline: False
+            
+            BoxLayout:
+                orientation:'vertical'
+                Label:
+                    text:'Number of simulations'
+                    font_size: 15
+                    size_hint: (1,0.2)
+
+                TextInput:
+                    id: simulationsToRun
+                    hint_text: 'number of simulations to run'
+                    input_filter: "int"
+                    multiline: False
+
+        Label:
+            text:'Sickness Settings'
+            font_size: 25
+        
+        BoxLayout:
+            orientation:'vertical'
+
+            Label:
+                text:'Chance to infect while meeting'
+                font_size: 15
+                size_hint: (1,0.2)
+
+            TextInput:
+                id: chanceToInfect
+                hint_text: 'chance to infect while meeting'
+                input_filter: "float"
+                multiline: False
+
+        
+        Label:
+            text:'Curing Settings'
+            font_size: 25
+        
+        BoxLayout:
+            orientation:'horizontal'
+
+            BoxLayout:
+                orientation:'vertical'
+
+                Label:
+                    text:'Minimal number of days to lose sickness'
+                    font_size: 15
+                    size_hint: (1,0.2)
+        
+                TextInput:
+                    id: curingTimeMin
+                    hint_text: 'Minimal number of days to lose sickness'
+                    input_filter: "int"
+                    multiline: False
+
+            BoxLayout:
+                orientation:'vertical'
+
+                Label:
+                    text:'Maximal number of days to lose sickness'
+                    font_size: 15
+                    size_hint: (1,0.2)
+
+                TextInput:
+                    id: curingTimeMax
+                    hint_text: 'Maximal number of days to lose sickness'
+                    input_filter: "int"
+                    multiline: False
+        
+        BoxLayout:
+            orientation:'vertical'
+
+            Label:
+                text:'Chance to cure from sickness'
+                font_size: 15
+                size_hint: (1,0.2)
+
+            TextInput:
+                id: curingChance
+                hint_text: 'Chance to cure from sickness'
+                input_filter: "float"
+                multiline: False
+
+
+        Label:
+            text:'resistance Settings'
+            font_size: 25
+        
+        BoxLayout:
+            orientation:'horizontal'
+
+            BoxLayout:
+                orientation:'vertical'
+
+                Label:
+                    text:'Minimal number of days to lose resistance to sickness'
+                    font_size: 15
+                    size_hint: (1,0.2)
+
+                TextInput:
+                    id: resistanceTimeMin
+                    hint_text: 'Minimal number of days to lose resistance to sickness'
+                    input_filter: "int"
+                    multiline: False
+            
+            BoxLayout:
+                orientation: 'vertical'
+        
+                Label:
+                    text:'Maximal number of days to lose resistance to sickness'
+                    font_size: 15
+                    size_hint: (1,0.2)
+
+                TextInput:
+                    id: resistanceTimeMax
+                    hint_text: 'Maximal number of days to lose resistance to sickness'
+                    input_filter: "int"
+                    multiline: False
+
+        Label:
+            text:'Modifiers'
+            font_size: 25
+        
+        BoxLayout:
+            orientation:'horizontal'
+
+            BoxLayout:
+                orientation: 'vertical'
+
+                Label:
+                    text:'Hygiene modifier'
+                    font_size: 15
+                    size_hint: (1,0.2)
+
+                Spinner:
+                    id: hygieneModif
+                    text: "NORMAL"
+                    values: root.modifiersValuesVisual
+                    BoxLayout:
+
+            BoxLayout:
+                orientation: 'vertical'
+
+                Label:
+                    text:'population control modifier'
+                    font_size: 15
+                    size_hint: (1,0.2)
+
+                Spinner:
+                    id: popModif
+                    text: "NORMAL"
+                    values: root.modifiersValuesVisual
+            
+            BoxLayout:
+                orientation: 'vertical'
+
+                Label:
+                    text:'healthcare modifier'
+                    font_size: 15
+                    size_hint: (1,0.2)
+
+                Spinner:
+                    id: healthModif
+                    text: "NORMAL"
+                    values: root.modifiersValuesVisual
+        
+        GridLayout:
+            cols: 2
+
+            Label:
+                text:'Vaccines created'
+                font_size: 20
+
+            CheckBox:
+                active: root.vaccines
+                on_active:
+                    root.vaccines = self.active
+
+        GridLayout:
+            rows: 2
+            cols: 2
+            visible: root.vaccines
+            size_hint_x: 1 if self.visible else 0
+            opacity: 1 if self.visible else 0
+            disabled: not self.visible
+            
+            Label:
+                text:'percentage of population vaccinated (0-1)'
+                font_size: 20
+
+            Label:
+                text:'day of vaccines creation'
+                font_size: 20
+
+            TextInput:
+                id: populationVaccinated
+                hint_text: 'percentage of population vaccinated (0-1)'
+                input_filter: 'float'
+
+            TextInput:
+                id: dayOfVaccinesCreation
+                hint_text: 'day of vaccines creation'
+                input_filter: 'int'
+
+
+        Button:
+            text: 'Save'
+            on_press:
+                root.save_changes()
+                root.manager.current = "plague_main_screen"
+                root.resize_window( *root.pos_adj.get_base_size() )

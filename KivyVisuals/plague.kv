@@ -1,0 +1,82 @@
+#:import NoTransition kivy.uix.screenmanager.NoTransition
+#:import SlideTransition kivy.uix.screenmanager.SlideTransition
+#: include KivyVisuals/KivySubElements/loading/loading.kv
+#: include KivyVisuals/KivySubElements/settings/settings.kv
+#: include KivyVisuals/KivySubElements/presets/presets.kv
+
+<PlagueMainScreen>:  
+    on_enter:
+        root.manager.transition = SlideTransition()
+        root.current_preset = root.sd.current_preset
+        
+    BoxLayout:
+        orientation:'vertical'
+        Label:
+            font_size: 40  
+            text: "Plague Symulation"
+            
+        Label:
+            font_size: 20  
+            text: f"Current preset: {root.current_preset}"
+        
+        GridLayout:
+            cols: 3
+
+            GridLayout:
+                rows: 2
+
+                Label:
+                    text:'Show animation'
+
+                CheckBox:
+                    active: root.use_animation
+                    on_active:
+                        root.change_animate(self.active)
+            
+            GridLayout:
+                rows: 2
+                
+                Label:
+                    text:'Use Log scale'
+                CheckBox:
+                    active: root.use_log_scale
+                    on_active: 
+                        root.change_scale(self.active)
+            GridLayout:
+                rows: 2
+
+                Label:
+                    text:'Use CUDA'
+                CheckBox:
+                    active: root.use_CUDA
+                    on_active: 
+                        root.change_cuda(self.active)
+            
+        
+        Button:
+            text: 'Start symulation'
+            on_press:
+                root.manager.transition.direction = "left"
+                root.manager.transition.duration = 0.2
+                root.manager.current = "loading"
+        
+        Button:
+            text: 'Set data'
+            on_press:
+                root.manager.transition = NoTransition()
+                root.manager.current = "custom_settings"
+                root.resize_window(root.set_data_width, root.set_data_height)
+        
+        Button:
+            text: 'Set presets'
+            on_press:
+                root.manager.transition.direction = "left"
+                root.manager.transition.duration = 0.2
+                root.manager.current = "preset_selection"
+
+        Button:
+            text: 'Exit'
+            on_release: app.stop()
+
+
+

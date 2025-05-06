@@ -29,6 +29,7 @@ class GenerationData:
         self.curing_time_min : int = curing_time_min
         self.curing_time_max : int = curing_time_max
         self.curing_prob : float = curing_prob
+        self.base_curing_prob: float = curing_prob
         self.resTime_min : int = resTime_min
         self.resTime_max : int = resTime_max
         self.epidemy_treshold : int = epidemy_treshold
@@ -52,13 +53,8 @@ class Generation:
         self.__set_population_data(gd.generation_size)
         self.__set_curing_vars(gd.curing_time_min, gd.curing_time_max, gd.curing_prob, gd.resTime_min, gd.resTime_max)
         self.__set_epidemy_vars(gd.epidemy_treshold)
-        self.infection_timeline : list[InfectionData] = [InfectionData(1, 0, self.curing_time)]
-        self.resistance_timeline : list[InfectionData] = []
-        self.path_positions : tuple[int, int] = None
-
-        self.vaccines_timeline : InfectionData = None
-        if gd.have_vacc:
-            self.vaccines_timeline = InfectionData(0,0,gd.vacc_day, gd.vacc_population)
+        self.__set_vaccines_vars( gd.have_vacc, gd.vacc_day, gd.vacc_population )
+        self.__reset_timeline()
 
     def __set_population_data( self, generation_size : int ) -> None:
         self.generation_size : int = generation_size
@@ -82,9 +78,20 @@ class Generation:
 
     def __set_epidemy_vars( self, epidemy_treshold : int ) -> None:
         self.epidemy_treshold : int = epidemy_treshold
+    
+    def __set_vaccines_vars( self, have_vacc : bool, vacc_day : int, vacc_population : float ):
+        self.have_vacc = have_vacc
+        self.vacc_day = vacc_day
+        self.vacc_population = vacc_population
+    
+    def __reset_timeline( self ):
         self.epidemy_states : list[EpidemyState] = []
-
-
+        self.infection_timeline : list[InfectionData] = [InfectionData(1, 0, self.curing_time)]
+        self.resistance_timeline : list[InfectionData] = []
+        self.path_positions : tuple[int, int] = None
+        self.vaccines_timeline : InfectionData = None
+        if self.have_vacc:
+            self.vaccines_timeline = InfectionData(0,0,self.vacc_day, self.vacc_population)
 
     #endregion Init
 

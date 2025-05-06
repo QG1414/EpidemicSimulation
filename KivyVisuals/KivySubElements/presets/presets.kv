@@ -1,0 +1,25 @@
+<SelectPreset>: 
+    on_enter: root.on_start_update()
+
+    BoxLayout:
+        orientation:'vertical'
+        Label:
+            text: f"Current preset: {root.current_name}"
+            halign: 'center'
+            valign: 'middle'
+        
+        Spinner:
+            id: currentPresetSet
+            text: root.current_name
+            values: root.presets
+    
+        Button:
+            text: 'Back'
+            on_press:
+                root.manager.transition.direction = "right"
+                root.manager.transition.duration = 0.2
+                root.manager.current = "plague_main_screen"
+        Button:
+            text: "Save"
+            on_press:
+                root.on_preset_save()

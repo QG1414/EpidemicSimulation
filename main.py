@@ -1,8 +1,12 @@
 from generationScripts.generation import GenerationData
 from enums.epidemyEnums import *
-from enums.presetEnums import PRESETS
-from SymulationData import SymulationData
+from SymulationData import SymulationData, SymulationPreData
+from KivyVisuals.kivy_main import MainApp
+import matplotlib as plt
 
+
+
+plt.logging.getLogger('matplotlib.font_manager').setLevel(plt.logging.ERROR)
 
 #region raw_values_input
 
@@ -26,15 +30,15 @@ res_time_min : int = 5 # minimal amount of days before people lose resistance to
 res_time_max : int = 7 # maximal amount of days before people lose resistance to sickness
 
 #modifiers
-hygiene : MODIF_LEVELS = MODIF_LEVELS.VERY_GOOD # when hygiene is good chance to infect is lower when bad its worse
+hygiene : MODIF_LEVELS = MODIF_LEVELS.VERY_BAD # when hygiene is good chance to infect is lower when bad its worse
 population_control : MODIF_LEVELS = MODIF_LEVELS.VERY_GOOD # when population control is good chance to meet a lot of people is lower when bad its bigger
-healthcare : MODIF_LEVELS = MODIF_LEVELS.VERY_BAD # when healthcare is good chance to cure is bigger when bad its lower
+healthcare : MODIF_LEVELS = MODIF_LEVELS.BAD # when healthcare is good chance to cure is bigger when bad its lower
 vaccines : MODIF_ENABLED = MODIF_ENABLED.ENABLED # when vaccines are enabled then we add info about how many people are vaccinated and from wchich day
 
 #population vaccinated is how much percentage of people is vaccinated
 #day of vaccines is info from wchich day vaccines are starting
 vaccines_params : dict[VACCINES_PARAMS:any] = {
-    VACCINES_PARAMS.POPULATION_VACCINATED : 0.4, VACCINES_PARAMS.DAY_OF_VACCINES : 0 
+    VACCINES_PARAMS.POPULATION_VACCINATED : 0.4, VACCINES_PARAMS.DAY_OF_VACCINES : 12
     }
 
 #modif is only for easier data manipulation
@@ -48,20 +52,13 @@ modif : dict[str,any] = {
 
 #endregion raw_values_input
 
-
 # GenerationData and SymulationData needs to be uncommented only when we are not using presets
-# generation_data = GenerationData( generation_size, threshold, curing_time_min, curing_time_max , curing_prob, res_time_min, res_time_max )
-# sd = SymulationData( generation_data, chance_to_meet_people, n, k, p, modif, enable_cuda=False )
+generation_data = GenerationData( generation_size, threshold, curing_time_min, curing_time_max , curing_prob, res_time_min, res_time_max )
+symulation_data = SymulationPreData( chance_to_meet_people, n, k, p )
+sd = SymulationData( generation_data, symulation_data, modif )
 
-
-
-# PRESETS some presets are created and autmaticly selected when cuda is available and enabled
-# all possible presets are in enum PRESETS
-sd : SymulationData = SymulationData.import_preset(PRESETS.COVID.value, enable_cuda=False)
-
-#here we set is scale should be logarytmic
-sd.path_generator_visual.set_scale_log(True)
 
 if __name__ == "__main__":
     # we start the simulation, when number of simulations is greater then 30 then animate should be false
-    sd.start_gaphing(animate=True)
+    ma = MainApp(sd)
+    ma.start_app()
