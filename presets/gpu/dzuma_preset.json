@@ -4,11 +4,11 @@
     "symulation_params" : {
         "chance_to_meet"    : {"0" : 0.1, "1" : 0.3, "2" : 0.6},
         "symulations"       : 30,
-        "days"              : 60
+        "days"              : 90
     },
 
     "generation_params" : {
-        "size"              : 450000000,
+        "size"              : 45000000,
         "epidemy_threshold" : 0.005
     },
 

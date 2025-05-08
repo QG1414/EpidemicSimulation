@@ -7,7 +7,7 @@ from SymulationData import SymulationData
 #region raw_values_input
 
 #people variables
-generation_size : int = 300000 # population size if its more then 10_000_000 then cuda should be used
+generation_size : int = 300000000 # population size if its more then 10_000_000 then cuda should be used
 chance_to_meet_people : dict[int, int] = {0:0.1, 1:0.1, 2:0.8} # chance to meet people with given prob, sum of the values should add up to 1
 n : int = 30 # numbers of days to simulate with cuda good value is 60 without 30
 k : int = 15 # amount of simulations with cuda good value is 30 without 15
@@ -50,18 +50,18 @@ modif : dict[str,any] = {
 
 
 # GenerationData and SymulationData needs to be uncommented only when we are not using presets
-# generation_data = GenerationData( generation_size, threshold, curing_time_min, curing_time_max , curing_prob, res_time_min, res_time_max )
-# sd = SymulationData( generation_data, chance_to_meet_people, n, k, p, modif, enable_cuda=False )
+#generation_data = GenerationData( generation_size, threshold, curing_time_min, curing_time_max , curing_prob, res_time_min, res_time_max )
+#sd = SymulationData( generation_data, chance_to_meet_people, n, k, p, modif, enable_cuda=True )
 
 
 
 # PRESETS some presets are created and autmaticly selected when cuda is available and enabled
 # all possible presets are in enum PRESETS
-sd : SymulationData = SymulationData.import_preset(PRESETS.COVID.value, enable_cuda=False)
+sd : SymulationData = SymulationData.import_preset(PRESETS.PLAGUE.value, enable_cuda=True)
 
 #here we set is scale should be logarytmic
 sd.path_generator_visual.set_scale_log(True)
 
 if __name__ == "__main__":
     # we start the simulation, when number of simulations is greater then 30 then animate should be false
-    sd.start_gaphing(animate=True)
+    sd.start_gaphing(animate=False)
