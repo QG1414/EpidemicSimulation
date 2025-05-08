@@ -3,6 +3,7 @@
 #: include KivyVisuals/KivySubElements/loading/loading.kv
 #: include KivyVisuals/KivySubElements/settings/settings.kv
 #: include KivyVisuals/KivySubElements/presets/presets.kv
+#: include KivyVisuals/KivySubElements/popups/popup.kv
 
 <PlagueMainScreen>:  
     on_enter:
@@ -73,7 +74,7 @@
                 root.manager.transition.direction = "left"
                 root.manager.transition.duration = 0.2
                 root.manager.current = "preset_selection"
-
+        
         Button:
             text: 'Exit'
             on_release: app.stop()

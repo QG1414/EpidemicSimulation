@@ -69,6 +69,22 @@ class PathsGeneratorCalculus:
 
     #endregion
 
+    #region baches
+
+    def get_safe_batch_size( self, reserved_mem = 300 * 1024 * 1024 ):
+        try:
+            free_mem, _ = cp.cuda.runtime.memGetInfo()
+            usable_mem = max(0, free_mem - reserved_mem)
+            estimated_bytes_per_item = 10
+            batch_size = usable_mem // estimated_bytes_per_item
+            return int( batch_size )
+        except Exception:
+            print("excpetion")
+            return 10000000
+
+    #endregion baches
+
+    
     #region pathGeneration
 
     def __random_sum( self, N: int, main_generation: int, generation_number: int ) -> int:
@@ -86,7 +102,7 @@ class PathsGeneratorCalculus:
         culm_probs = xp.cumsum(population_prob)
         population_keys = xp.array(self.population_keys)
 
-        batch_size = 100_000_000
+        batch_size = self.get_safe_batch_size() if self.enable_cuda else 5_000_000
 
         total_sum = 0
 
@@ -100,23 +116,36 @@ class PathsGeneratorCalculus:
         elif max_bit_values >= 6:
             sum_type = xp.int16
 
-        for batch_start in range(0, N, batch_size):
+        batch_start = 0
+
+        while batch_start < N:
             if self.force_cancel:
                 return None
             current_batch_size = min(batch_size, N - batch_start)
 
-            random_values = rng.random(current_batch_size)
-            indices = xp.searchsorted(culm_probs, random_values, side='right')
-            batch_population = population_keys[indices]
+            while True:
+                try:
+                    random_values = rng.random(current_batch_size)
+                    indices = xp.searchsorted(culm_probs, random_values, side='right')
+                    batch_population = population_keys[indices]
 
-            batch_binomial = (rng.random(current_batch_size) < self.p).astype(xp.int8)
-            batch_result = xp.sum( batch_binomial * batch_population, dtype=sum_type )
+                    batch_binomial = (rng.random(current_batch_size) < self.p).astype(xp.int8)
+                    batch_result = xp.sum( batch_binomial * batch_population, dtype=sum_type )
 
-            total_sum += batch_result
-            
+                    total_sum += batch_result
+                    break
+                except cp.cuda.memory.OutOfMemoryError:
+                    current_batch_size = current_batch_size // 2
+                    if current_batch_size < 1_000_000:
+                        raise RuntimeError( "Not enough GPU memory even for smallest batch!" )
+                    cp._default_memory_pool.free_all_blocks()
+
+            batch_start += current_batch_size
+
+
         if self.enable_cuda:
             total_sum = total_sum.get()
-        
+                    
         self.generations[main_generation].add_infection_info(generation_number, total_sum)
         return self.generations[main_generation].infecting_population
 
@@ -165,6 +194,7 @@ class PathsGeneratorVisual:
         self.fig : Figure
         self.ax : list[Axes]
         self.fig , self.ax = plt.subplots(ncols=2, figsize=(12, 6))
+        self.fig.patch.set_facecolor('xkcd:mint green')
 
     def __base_visuals( self ) -> None:
         self.lines : list[list[Line2D]] = []

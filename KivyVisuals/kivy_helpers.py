@@ -1,6 +1,9 @@
 from kivy.uix.screenmanager import Screen
 from SymulationData import SymulationData
 from kivy.core.window import Window
+from kivy.uix.floatlayout import FloatLayout
+from kivy.uix.popup import Popup
+from kivy.properties import StringProperty
 
 class PositionAdjuster:
     def __init__( self, base_width : int, base_height : int, base_width_pos : int, base_height_pos : int ):
@@ -33,3 +36,21 @@ class BaseScreen(Screen):
     def resize_window( self, new_width : int, new_height : int ):
         Window.size = ( new_width, new_height )
         Window.left, Window.top = self.pos_adj.calculate_new_position( new_width, new_height )
+
+class PopupKivy(FloatLayout):
+
+    label_text = StringProperty("")
+
+    def __init__(self, title : str, label_text : str, **kwargs):
+        self.label_text = label_text
+        self.title = title
+        super().__init__(**kwargs)
+
+    def show_popup(self):
+        self.pop_window = Popup(title=self.title, content = self, size_hint = (None, None), size = (400,400))
+        self.pop_window.open()
+    
+    def close_popup(self):
+        if self.pop_window != None:
+            self.pop_window.dismiss()
+        self.pop_window = None

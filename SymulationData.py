@@ -183,9 +183,12 @@ class SymulationData:
         vacc_modif.setdefault(VACCINES_PARAMS.VACCINES_PARAM.value, vacc_params)
         return vacc_modif
     
-    def set_cuda( self, enable_cuda : bool, update_preset : bool = False ):
+    def set_cuda( self, enable_cuda : bool, update_preset : bool = False, force_error : bool = False ) -> bool: #TODO remove force_error in production
         self.enable_cuda = enable_cuda
         cuda_available = cp.cuda.runtime.getDeviceCount() > 0
+
+        if force_error:
+            cuda_available = False
 
         if enable_cuda and enable_cuda != cuda_available:
             print( "ERROR! Cuda isn't detected on device so it was autamaticly disabled" ) 
@@ -193,6 +196,8 @@ class SymulationData:
         
         if update_preset and self.current_preset != PRESETS_NAMES.NONE.value:
             self.import_preset_not_static( self.preset_path, self.current_preset )
+        
+        return enable_cuda == self.enable_cuda
 
 
 #endregion setters

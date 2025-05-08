@@ -1,5 +1,6 @@
-from KivyVisuals.kivy_helpers import BaseScreen
+from KivyVisuals.kivy_helpers import BaseScreen, PopupKivy
 from kivy.properties import BooleanProperty, StringProperty, NumericProperty
+from kivy.uix.popup import Popup
 
 class PlagueMainScreen(BaseScreen):    
     use_animation : BooleanProperty = BooleanProperty(True)
@@ -28,6 +29,12 @@ class PlagueMainScreen(BaseScreen):
 
     def change_cuda( self, value ):
         self.use_CUDA = value
-        self.sd.set_cuda( value, True )
+        if( not self.sd.set_cuda( value, True ) ):
+            self.use_CUDA = False
+            self.show_popup()
+    
+    def show_popup(self):
+        popKv = PopupKivy("CUDA ERROR", "Cuda wasn't detected on the device so it was autamaticly disabled")
+        popKv.show_popup()
     
 #endregion Toggles

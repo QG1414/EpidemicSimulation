@@ -1,0 +1,13 @@
+<PopupKivy>:
+    Label:
+        text: root.label_text
+        size_hint: .8,.2
+        text_size: self.width, None
+        pos_hint: {"x":0.1, "top":0.9}
+        height: self.texture_size[1]
+    
+    Button:
+        text: "OK"
+        size_hint: .8,.2
+        pos_hint: {"x":0.1, "y":0.1}
+        on_press: root.close_popup()

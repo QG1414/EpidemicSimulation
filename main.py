@@ -5,7 +5,7 @@ from KivyVisuals.kivy_main import MainApp
 import matplotlib as plt
 
 
-
+plt.rcParams['toolbar'] = 'None'
 plt.logging.getLogger('matplotlib.font_manager').setLevel(plt.logging.ERROR)
 
 #region raw_values_input
