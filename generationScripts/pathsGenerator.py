@@ -79,7 +79,6 @@ class PathsGeneratorCalculus:
             batch_size = usable_mem // estimated_bytes_per_item
             return int( batch_size )
         except Exception:
-            print("excpetion")
             return 10000000
 
     #endregion baches
@@ -145,6 +144,7 @@ class PathsGeneratorCalculus:
 
         if self.enable_cuda:
             total_sum = total_sum.get()
+            cp._default_memory_pool.free_all_blocks()
                     
         self.generations[main_generation].add_infection_info(generation_number, total_sum)
         return self.generations[main_generation].infecting_population
@@ -263,7 +263,7 @@ class PathsGeneratorVisual:
         self.fig.texts.clear()
         self.fig.text(.01,.95,self.preset_name)
         self.fig.text(.7,.95,f"On average $\\bf{{{calculated_population:.4f}\\%}}$ of population is dead")
-        self.fig.text(.125,.9,f"Current simulation: $\\bf{{{min(last_id + 1, self.k)} / {self.k}}}$")
+        self.fig.text(.125,.91,f"Current simulation: $\\bf{{{min(last_id + 1, self.k)} / {self.k}}}$")
 
     #endregion pie_visuals
 
