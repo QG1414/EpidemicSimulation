@@ -7,6 +7,7 @@ from matplotlib.animation import FuncAnimation
 import cupy as cp
 from kivy.clock import Clock
 import time
+from helper import resource_path
 
 class SymulationPreData:
 
@@ -82,8 +83,10 @@ class SymulationData:
             import_path = PRESETS_BASE.GPU.value + import_path
         else:
             import_path = PRESETS_BASE.CPU.value + import_path
+        
+        final_path = resource_path(import_path)
 
-        with open(import_path, encoding="utf-8") as f:
+        with open(final_path, encoding="utf-8") as f:
             d : dict = json.load(f)
             name : str = "Simulating preset: " + f"$\\bf{{{d[MainPresets.NAME.value].replace(' ', '\ ')}}}$"
             generation : GenerationData = self.__import_general_params(Generation_params, [d.get(MainPresets.GENERATION.value), d.get(MainPresets.CURING.value), d.get(MainPresets.RESISTANCE.value)])
