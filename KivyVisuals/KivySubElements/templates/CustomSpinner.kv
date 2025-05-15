@@ -1,0 +1,63 @@
+#:import hex kivy.utils.get_color_from_hex
+#:import Factory kivy.factory.Factory
+
+<CustomSpinnerOptions@SpinnerOption>:
+    background_color: ''
+    background_color: 0,0,0,0
+
+    color: 0,0,0,1
+    font_size: "20dp"
+    canvas.before:
+
+        Color:
+            rgba: hex("#e3ecddcc") if self.state == "down" else hex("#e3ecddff")
+        
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+
+<CustomSpinnerDropdown@DropDown>:
+    max_height: 300
+    bar_width: 20
+    bar_color: 1,0,0,1
+    bar_innactive_color: 1,0,0,1
+    effect_cls: 'ScrollEffect'
+    scroll_type: ['bars', 'content']
+
+<CustomSpinner>
+    
+    #end_pos: self.pos[0] + self.width
+    background_color: 0,0,0,0  #c1cabbff
+    background_normal: ''
+    color: 0,0,0,1
+    font_size: "30dp"
+    halign: "center"
+    valign: "center"
+    text_size: self.size
+
+
+
+    canvas.before:
+
+        Color:
+            rgba: hex("#e3ecddcc") if self.state == "down" else hex("#e3ecddff") #e3ecddff
+        
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    canvas:
+        Color:
+            rgba: hex("#c1cabbff")
+
+        Triangle:
+            points: [root.end_pos_x, self.end_pos_y, root.end_pos_x, self.end_pos_y + self.pos_diff, root.end_pos_x - self.pos_diff, self.end_pos_y]
+
+    # on_press:
+    #     print("press",self.state)
+    # on_release:
+    #     print("release", self.state)
+
+    dropdown_cls: Factory.CustomSpinnerDropdown
+    option_cls: Factory.CustomSpinnerOptions

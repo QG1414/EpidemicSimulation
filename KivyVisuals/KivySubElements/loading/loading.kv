@@ -1,17 +1,28 @@
 <Loading>: 
     on_enter: root.start_symulation()
+    canvas.before:
+        Color:
+            rgba: (1,1,1,1)
+
+        Rectangle:
+            pos: self.pos
+            size: self.size
+            source: r"KivyVisuals\images\tlo.png"
     
     BoxLayout:
         orientation:'vertical'
-        Label:
+        padding: [0,0,0,100]
+        spacing: -100
+        Circle:
             id: symulations_number
             markup: True
-            font_size: self.parent.size[0] * 0.05
+            font_size: 100
             text: root.info_text
             halign: 'center'
-            valign: 'middle'
+            valign: 'middle'          
     
-        Button:
+        FullRoundedButton:
+            size_hint: .3, .1
             id: cancle_button
             text: 'Cancle Loading'
             on_press:

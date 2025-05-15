@@ -9,7 +9,7 @@ class PlagueMainScreen(BaseScreen):
 
     current_preset : StringProperty = StringProperty("none")
 
-    set_data_width : NumericProperty = NumericProperty(600)
+    set_data_width : NumericProperty = NumericProperty(1000)
     set_data_height : NumericProperty = NumericProperty(800)
 
     def __init__( self, bs : BaseScreen, **kw ):

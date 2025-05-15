@@ -1,13 +1,34 @@
+#:import hex kivy.utils.get_color_from_hex
+
 <PopupKivy>:
+
+    canvas.before:
+        Color:
+            rgba: (1,1,1,1)
+
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
     Label:
         text: root.label_text
         size_hint: .8,.2
         text_size: self.width, None
         pos_hint: {"x":0.1, "top":0.9}
         height: self.texture_size[1]
+        color: "#000000"
     
-    Button:
+    FullRoundedButton:
         text: "OK"
         size_hint: .8,.2
         pos_hint: {"x":0.1, "y":0.1}
-        on_press: root.close_popup()
+        on_release: root.close_popup()
+        color: hex("#2a2a2a")
+        canvas.before:
+            Color:
+                rgba: hex("#e3e3e3") if self.state == 'normal' else hex("#e3e3e373")
+            
+            RoundedRectangle:
+                pos: self.pos
+                size: self.size
+                radius: [25, 25, 25, 25]

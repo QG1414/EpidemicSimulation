@@ -1,0 +1,18 @@
+#:import hex kivy.utils.get_color_from_hex
+
+<Circle@Label>:
+    size_hint: 1, .7
+    center: root.center
+    filled: 0
+
+    canvas:
+        Color:
+            rgba: hex("#e3ecdd73") if self.filled != 360 else hex("#00000000")
+        Line:
+            width: 24
+            circle: (self.center_x, self.center_y, min(self.width - 400, self.height - 400) / 2 )
+        Color:
+            rgba: hex("#e3ecddB3") if (self.filled != 0 and self.filled != 360) else hex("#00000000")
+        Line: 
+            width: 24
+            circle: (self.center_x, self.center_y, min( self.width - 400, self.height - 400) / 2, 0, self.filled )

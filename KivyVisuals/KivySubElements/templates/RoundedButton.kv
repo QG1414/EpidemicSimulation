@@ -1,0 +1,62 @@
+#:import hex kivy.utils.get_color_from_hex
+
+<RoundedButton@Button>:
+    background_normal: ''
+    background_color: 0,0,0,0
+
+    size_hint: 1, .2
+    color: hex("#4d7172")
+    font_size: "30dp"
+    halign: "left"
+    valign: "center"
+    text_size: self.size
+    padding: [60, 0]
+
+    canvas.before:
+        Color:
+            rgba: hex("#e3ecddB3") if self.state == 'normal' else hex("#e3ecdd73")
+        
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [25, 0, 0, 25]
+
+<RoundedButtonInverse@Button>:
+    background_normal: ''
+    background_color: 0,0,0,0
+
+    color: hex("#4d7172")
+    font_size: "30dp"
+    halign: "right"
+    valign: "center"
+    text_size: self.size
+    padding: [60, 0]
+
+    canvas.before:
+        Color:
+            rgba: hex("#e3ecddB3") if self.state == 'normal' else hex("#e3ecdd73")
+        
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [0, 25, 25, 0]
+    
+<FullRoundedButton@Button>:    
+    background_normal: ''
+    background_color: 0,0,0,0
+
+    color: hex("#4d7172")
+    font_size: "30dp"
+    halign: "center"
+    valign: "center"
+    text_size: self.size
+    pos_hint: {"center_y" : 1, "center_x" : 0.5}
+
+    canvas.before:
+        Color:
+            rgba: hex("#e3ecddB3") if self.state == 'normal' else hex("#e3ecdd73")
+        
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [25, 25, 25, 25]

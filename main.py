@@ -11,7 +11,7 @@ plt.logging.getLogger('matplotlib.font_manager').setLevel(plt.logging.ERROR)
 #region raw_values_input
 
 #people variables
-generation_size : int = 300000 # population size if its more then 10_000_000 then cuda should be used
+generation_size : int = 3000000 # population size if its more then 10_000_000 then cuda should be used
 chance_to_meet_people : dict[int, int] = {0:0.1, 1:0.1, 2:0.8} # chance to meet people with given prob, sum of the values should add up to 1
 n : int = 30 # numbers of days to simulate with cuda good value is 60 without 30
 k : int = 15 # amount of simulations with cuda good value is 30 without 15

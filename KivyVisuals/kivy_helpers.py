@@ -47,7 +47,7 @@ class PopupKivy(FloatLayout):
         super().__init__(**kwargs)
 
     def show_popup(self):
-        self.pop_window = Popup(title=self.title, content = self, size_hint = (None, None), size = (400,400))
+        self.pop_window = Popup(title=self.title, content = self, size_hint = (None, None), size = (400,400), separator_color = [0,0,0,0])
         self.pop_window.open()
     
     def close_popup(self):

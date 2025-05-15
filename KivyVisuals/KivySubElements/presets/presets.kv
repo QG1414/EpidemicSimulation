@@ -1,25 +1,47 @@
 <SelectPreset>: 
     on_enter: root.on_start_update()
 
+    canvas.before:
+        Color:
+            rgba: (1,1,1,1)
+
+        Rectangle:
+            pos: self.pos
+            size: self.size
+            source: r"KivyVisuals\images\tlo.png"
+
     BoxLayout:
         orientation:'vertical'
+        padding: [0,80]
+        spacing: 40
+
         Label:
             text: f"Current preset: {root.current_name}"
             halign: 'center'
             valign: 'middle'
+            font_size: "60dp"
         
-        Spinner:
+        CustomSpinner:
+            size_hint: 0.5, 0.2
+            pos_hint: {"center_y":0.5, "center_x" : 0.5}
             id: currentPresetSet
             text: root.current_name
             values: root.presets
+
+        BoxLayout:
+            orientation: "horizontal"
+            spacing: 100
     
-        Button:
-            text: 'Back'
-            on_press:
-                root.manager.transition.direction = "right"
-                root.manager.transition.duration = 0.2
-                root.manager.current = "plague_main_screen"
-        Button:
-            text: "Save"
-            on_press:
-                root.on_preset_save()
+            RoundedButtonInverse:
+                text: 'Back'
+                size_hint: .5, .4
+                on_press:
+                    root.manager.transition.direction = "right"
+                    root.manager.transition.duration = 0.2
+                    root.manager.current = "plague_main_screen"
+            
+            RoundedButton:
+                text: "Save"
+                size_hint: .5, .4
+                on_press:
+                    root.on_preset_save()

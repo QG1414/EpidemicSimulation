@@ -1,83 +1,129 @@
-#:import NoTransition kivy.uix.screenmanager.NoTransition
-#:import SlideTransition kivy.uix.screenmanager.SlideTransition
+#: include KivyVisuals/KivySubElements/templates/RoundedButton.kv
+#: include KivyVisuals/KivySubElements/templates/BiggerCheckbox.kv
+#: include KivyVisuals/KivySubElements/templates/Circle.kv
 #: include KivyVisuals/KivySubElements/loading/loading.kv
 #: include KivyVisuals/KivySubElements/settings/settings.kv
 #: include KivyVisuals/KivySubElements/presets/presets.kv
 #: include KivyVisuals/KivySubElements/popups/popup.kv
+#: include KivyVisuals/KivySubElements/templates/CustomSpinner.kv
+
 
 <PlagueMainScreen>:  
+
+    canvas.before:
+        Color:
+            rgba: (1,1,1,1)
+
+        Rectangle:
+            pos: self.pos
+            size: self.size
+            source: r"KivyVisuals\images\mainScreenBackground.png"
+
     on_enter:
-        root.manager.transition = SlideTransition()
         root.current_preset = root.sd.current_preset
         
-    BoxLayout:
-        orientation:'vertical'
-        Label:
-            font_size: 40  
-            text: "Plague Symulation"
-            
-        Label:
-            font_size: 20  
-            text: f"Current preset: {root.current_preset}"
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'bottom'
+        size_hint: 1, .7
         
         GridLayout:
-            cols: 3
+            cols: 2
 
-            GridLayout:
-                rows: 2
+            BoxLayout:
+                size_hint: 0.58, 1
+                orientation: "vertical"
 
                 Label:
-                    text:'Show animation'
+                    padding: [80,20,0,0]
+                    font_size: "30dp" 
+                    markup: True
+                    text: f"Current preset: [color=#6ef68f]{root.current_preset}[/color]"
+                    halign: "left"
+                    valign: "top"
+                    text_size: self.size
 
-                CheckBox:
-                    active: root.use_animation
-                    on_active:
-                        root.change_animate(self.active)
-            
-            GridLayout:
-                rows: 2
+                BoxLayout:
+                    orientation: "horizontal"
+                    padding: [80, -50, 0, 0]
+                    
+                    BiggerCheckbox:
+                        active: root.use_animation
+                        on_active:
+                            root.change_animate(self.active)
+
+                    Label:
+                        text:'Show animation'
+                        font_size: "30dp"
+                        halign: "left"
+                        valign: "center"
+                        text_size: self.size
+                        padding: [20,0]
                 
-                Label:
-                    text:'Use Log scale'
-                CheckBox:
-                    active: root.use_log_scale
-                    on_active: 
-                        root.change_scale(self.active)
-            GridLayout:
-                rows: 2
+                BoxLayout:
+                    orientation: "horizontal"
+                    padding: [80, -45, 0, 0]
 
-                Label:
-                    text:'Use CUDA'
-                CheckBox:
-                    active: root.use_CUDA
-                    on_active: 
-                        root.change_cuda(self.active)
+                    BiggerCheckbox:
+                        active: root.use_log_scale
+                        on_active: 
+                            root.change_scale(self.active)
+
+                    Label:
+                        text:'Use Log scale'
+                        font_size: "30dp"
+                        halign: "left"
+                        valign: "center"
+                        text_size: self.size
+                        padding: [20,0]
+
+                BoxLayout:
+                    orientation: "horizontal"
+                    padding: [80, -35, 0, 0]
+
+                    BiggerCheckbox:
+                        active: root.use_CUDA
+                        on_active: 
+                            root.change_cuda(self.active)
+
+                    Label:
+                        text:'Use CUDA'
+                        font_size: "30dp"
+                        halign: "left"
+                        valign: "center"
+                        text_size: self.size
+                        padding: [20,0]
             
-        
-        Button:
-            text: 'Start symulation'
-            on_press:
-                root.manager.transition.direction = "left"
-                root.manager.transition.duration = 0.2
-                root.manager.current = "loading"
-        
-        Button:
-            text: 'Set data'
-            on_press:
-                root.manager.transition = NoTransition()
-                root.manager.current = "custom_settings"
-                root.resize_window(root.set_data_width, root.set_data_height)
-        
-        Button:
-            text: 'Set presets'
-            on_press:
-                root.manager.transition.direction = "left"
-                root.manager.transition.duration = 0.2
-                root.manager.current = "preset_selection"
-        
-        Button:
-            text: 'Exit'
-            on_release: app.stop()
+            BoxLayout:
+                size_hint: 0.42, 1
+                spacing: '65dp'
+                padding: ('10dp', '0dp', '0dp', '50dp')
+                orientation: "vertical"
+
+                RoundedButton:
+                    text: 'Start symulation'
+                    on_release:
+                        root.manager.transition.direction = "left"
+                        root.manager.transition.duration = 0.2
+                        root.manager.current = "loading"
+                
+                RoundedButton:
+                    text: 'Set data'
+                    on_release:
+                        root.manager.transition.direction = "left"
+                        root.manager.transition.duration = 0.2
+                        root.manager.current = "custom_settings"
+                
+                RoundedButton:
+                    text: 'Set presets'
+                    on_release:
+                        root.manager.transition.direction = "left"
+                        root.manager.transition.duration = 0.2
+                        root.manager.current = "preset_selection"
+                
+                RoundedButton:
+                    text: 'Exit'
+                    on_release: app.stop()
 
 
 

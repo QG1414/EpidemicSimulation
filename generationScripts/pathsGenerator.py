@@ -7,6 +7,7 @@ from matplotlib.axes import Axes
 from generationScripts.generation import Generation, GenerationData
 from enums.epidemyEnums import *
 import cupy as cp
+from cycler import cycler
 
 
 class PathsGeneratorCalculus:
@@ -149,7 +150,7 @@ class PathsGeneratorCalculus:
         self.generations[main_generation].add_infection_info(generation_number, total_sum)
         return self.generations[main_generation].infecting_population
 
-    def __random_path( self, n:int, main_generation:int ) -> tuple[int, int]:
+    def __random_path( self, n:int, main_generation:int, visuals ) -> tuple[int, int]:
         x = [0]
         y = [1]
 
@@ -161,16 +162,16 @@ class PathsGeneratorCalculus:
                 return None
             x.append(i)
             y.append(tmp_Z)
+            visuals.quick_update(main_generation * n + i)
         return x, y
 
     def generate_paths( self, n:int, visuals ) -> list[Generation]:
         print(f"start generating simulations")
         for i in range(self.k):
-            self.generations[i].add_path(self.__random_path(n,i))
+            self.generations[i].add_path(self.__random_path(n,i, visuals))
             if self.force_cancel:
                 return None
             print(f"symulation {i+1} / {self.k} finished")
-            visuals.update_visuals(i+1)
 
         return self.generations
     
@@ -178,6 +179,15 @@ class PathsGeneratorCalculus:
     
 
 class PathsGeneratorVisual:
+
+    lines_colors = [
+        "#62897E", "#3F5855", "#1D3130", "#293C3E", "#4A5E65",
+        "#737F85", "#3F5855", "#8CDDCE", "#54A08C", "#368772",
+        "#2A3338", "#354044", "#3C464F", "#515554", "#868A8E",
+        "#A4ACAF", "#040807", "#011108", "#1E8D78", "#07281D",
+        "#233736", "#081011", "#567F7D", "#5E9B96", "#3A4B45",
+        "#C3D8D1", "#74D0C1", "#95C3B9", "#488677", "#5C9080"
+        ]
 
     #region Init
 
@@ -194,12 +204,12 @@ class PathsGeneratorVisual:
         self.fig : Figure
         self.ax : list[Axes]
         self.fig , self.ax = plt.subplots(ncols=2, figsize=(12, 6))
-        self.fig.patch.set_facecolor('xkcd:mint green')
 
     def __base_visuals( self ) -> None:
         self.lines : list[list[Line2D]] = []
+        self.ax[0].set_prop_cycle(cycler(color = self.lines_colors))
         for _ in range(self.k):
-            line, = self.ax[0].plot([], [], lw=2)
+            line, = self.ax[0].plot([], [], lw=2 )
             self.lines.append(line)
         self.pie_id : int = -1
         self.ax[1].pie([])
@@ -228,7 +238,7 @@ class PathsGeneratorVisual:
             return
         self.pie_id = last_id
         labels = {"epidemy" : 0, "stable" : 0, "ended" : 0}
-        base_colors = {"epidemy" : "#e28d8d", "stable" : "#8669ff", "ended" : "#b2c085"}
+        base_colors = {"epidemy" : "#54A08C", "stable" : "#286B5B", "ended" : "#83C3BA"}
         dead_population = 0
         gener : Generation
         for gener in generations:
@@ -256,6 +266,7 @@ class PathsGeneratorVisual:
         self.ax[1].clear()
         _, texts, _ = self.ax[1].pie(labels.values(), labels=labels.keys(), colors=colors.values(), autopct='%1.1f%%', pctdistance = 1.2, labeldistance = 0.6, rotatelabels =True, startangle=0, shadow=True, textprops = dict(rotation_mode = 'anchor', va='center'))
         for text in texts:
+            text.set_color("#ffffff")
             text.set_fontsize(10)
         self.__update_symulation_number(calculated_population, last_id)
     

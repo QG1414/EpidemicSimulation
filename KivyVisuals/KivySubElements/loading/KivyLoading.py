@@ -4,20 +4,19 @@ from kivy.properties import StringProperty
 
 
 class Loading(BaseScreen):
-    info_text : StringProperty = StringProperty( "Waiting for symulation to load" )
+    info_text : StringProperty = StringProperty( "0%" )
 
 #region init
 
     def __init__( self, bs : BaseScreen , **kw ):
         super().__init__( bs.sd, bs.pos_adj, **kw )
-        self.all_to_load : int = self.sd.spd.k
-        self.loaded : int = 0
+        self.all_quick_load : int = self.sd.spd.k * self.sd.spd.n
     
     def update_visuals_on_start(self):
+        self.ids.symulations_number.font_size = 100
         self.ids.cancle_button.disabled = False
-        self.loaded = 0
-        self.all_to_load = self.sd.spd.k
-        self.info_text = f"symulations: {self.loaded} / {self.all_to_load}"
+        self.all_quick_load : int = self.sd.spd.k * self.sd.spd.n
+        self.info_text = f"{round( (0 / self.all_quick_load) *100 )}%"
 
 #endregion init
 
@@ -25,13 +24,14 @@ class Loading(BaseScreen):
         self.update_visuals_on_start()
         self.sd.restart_data()
         Thread( target = lambda: self.sd.start_load_data(self), daemon=True).start()
-
-    def update_visuals(self, dt):
-        self.loaded = dt
-        self.info_text = f"symulations: {self.loaded} / {self.all_to_load}"
+    
+    def quick_update(self, dt):
+        self.ids.symulations_number.filled = 360 * ( dt / self.all_quick_load )
+        self.info_text = f"{round( (dt / self.all_quick_load) * 100 )}%"
 
     def after_loading(self):
         self.ids.cancle_button.disabled = True
+        self.ids.symulations_number.font_size = 50
         self.info_text = "Close graph to return to mainScreen"
 
     def finish_loading(self):

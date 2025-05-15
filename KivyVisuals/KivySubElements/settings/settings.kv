@@ -7,8 +7,9 @@
         Button:
             text: 'back'
             on_press:
+                root.manager.transition.direction = "right"
+                root.manager.transition.duration = 0.2
                 root.manager.current = "plague_main_screen"
-                root.resize_window( *root.pos_adj.get_base_size() )
 
         Label:
             text:'Population Settings'
@@ -267,5 +268,6 @@
             text: 'Save'
             on_press:
                 root.save_changes()
+                root.manager.transition.direction = "right"
+                root.manager.transition.duration = 0.2
                 root.manager.current = "plague_main_screen"
-                root.resize_window( *root.pos_adj.get_base_size() )
