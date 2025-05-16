@@ -1,8 +1,11 @@
 from generationScripts.generation import GenerationData
 from enums.epidemyEnums import *
 from SymulationData import SymulationData, SymulationPreData
+from kivy.resources import resource_add_path
 from KivyVisuals.kivy_main import MainApp
 import matplotlib as plt
+import sys
+import os
 
 
 #region static_config
@@ -63,6 +66,8 @@ sd = SymulationData( generation_data, symulation_data, modif )
 
 
 if __name__ == "__main__":
+    if hasattr(sys, '_MEIPASS'):
+        resource_add_path((os.path.join(sys._MEIPASS)))
     # we start the simulation, when number of simulations is greater then 30 then animate should be false
     ma = MainApp(sd)
     ma.start_app()

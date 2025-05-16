@@ -65,11 +65,11 @@ class Generation:
         self.__reset_timeline()
 
     def __set_population_data( self, generation_size : int ) -> None:
-        self.generation_size : int = generation_size
-        self.vulnerable_population : int = generation_size-1
-        self.resistant_population : int = 0
-        self.dead_population : int = 0
-        self.infecting_population : int = 1
+        self.generation_size : np.int64 = np.int64(generation_size)
+        self.vulnerable_population = np.int64(generation_size-1)
+        self.resistant_population : np.int64 = np.int64(0)
+        self.dead_population : np.int64 = np.int64(0)
+        self.infecting_population : np.int64 = np.int64(1)
         self.deaths_threshold : float = 0.5
     
     def __set_curing_vars( self, curing_time_min : int, curing_time_max : int, curing_prob : float, resTime_min : int, resTime_max : int ) -> None:
@@ -184,7 +184,7 @@ class Generation:
     
     #region addInfectionInfo
     
-    def add_infection_info( self, generation_number : int, new_dieses : int ) -> None:
+    def add_infection_info( self, generation_number : np.int8, new_dieses : np.int64 ) -> None:
         if self.vulnerable_population < new_dieses:
             new_dieses = self.vulnerable_population
         
