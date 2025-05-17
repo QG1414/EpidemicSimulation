@@ -2,6 +2,7 @@ from kivy.config import Config
 Config.set('graphics', 'resizable', False)
 Config.set('graphics', 'width', '1000')
 Config.set('graphics', 'height', '800')
+Config.set('input', 'mouse', 'mouse,multitouch_on_demand')
 Config.write()
 
 from kivy.app import App
@@ -20,6 +21,8 @@ from KivyVisuals.KivySubElements.presets.KivyPresets import SelectPreset
 from helper import resource_path
 
 class PlagueApp(App):
+
+    icon = resource_path('KivyVisuals\images\Icon.png')
 
     @staticmethod
     def resource_path_app(relative_path):
