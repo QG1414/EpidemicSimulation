@@ -12,7 +12,7 @@ To run this app, download the ZIP OutbreakLab.zip from this [release](https://gi
  * If you download the ZIP, then unpack it. Do not move OutbreakLab.exe or modify the _internal folder, as it might cause the app to not work correctly. Then run OutbreakLab.exe.
  * If you use the installer, then download and run it. Go through the installer wizard, and the app will be installed. Then run OutbreakLab.exe. Do not move it from the folder, and do not modify the _internal folder.
 
-Then the visual app will show up. For the next steps, refer to [VisualVersion] (https://github.com/QG1414/OutbreakLab/tree/VisualVersion?tab=readme-ov-file#usage)
+Then the visual app will show up. For the next steps, refer to [VisualVersion](https://github.com/QG1414/OutbreakLab/tree/VisualVersion?tab=readme-ov-file#usage)
 
 ## Visualas and what they do
 
