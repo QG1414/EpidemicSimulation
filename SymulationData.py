@@ -190,7 +190,7 @@ class SymulationData:
         self.enable_cuda = enable_cuda
         cuda_available = cp.cuda.runtime.getDeviceCount() > 0
 
-        if enable_cuda and enable_cuda != cuda_available:
+        if enable_cuda and (enable_cuda != cuda_available or not self.is_cuda_usable()):
             print( "ERROR! Cuda isn't detected on device so it was autamaticly disabled" ) 
             self.enable_cuda = False
         
@@ -199,6 +199,19 @@ class SymulationData:
         
         return enable_cuda == self.enable_cuda
 
+
+    def is_cuda_usable( self ) -> bool:
+        try:
+            test_array = cp.array([1,2,3])
+            result = cp.cumsum(test_array)
+            _ = result.get()
+            return True
+        except cp.cuda.runtime.CUDARuntimeError as e:
+            print( f"CUDA runtime error: {e}" )
+            return False
+        except Exception as e:
+            print( f"Unexpected error when checking CUDA: {e}" )
+            return False 
 
 #endregion setters
 
