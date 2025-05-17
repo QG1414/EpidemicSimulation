@@ -59,19 +59,19 @@ Libraries that are needed for correct operation of the app:
 ## Installation
 For matplotlib, pandas, and numpy, use:
 
-python -m pip install matplotlib pandas numpy
+* python -m pip install matplotlib pandas numpy
 
 Using CUDA is more complicated. The app was created on CUDA 12.8, but you should check if you have CUDA and what version. To do this, run the command:
 
-nvidia-smi
+* nvidia-smi
 
 Then install:
 
-python -m pip install cupy-cuda{version}x
+* python -m pip install cupy-cuda{version}x
 
 where version is the version of your CUDA. For example, for CUDA 12.8:
 
-python -m pip install cupy-cuda12x
+* python -m pip install cupy-cuda12x
 
 
 
