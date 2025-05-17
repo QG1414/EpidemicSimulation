@@ -162,7 +162,6 @@ class SymulationData:
 #region setters
 
     def update_all_data( self, gd : GenerationData, spd : SymulationPreData, modifs : list[MODIF_LEVELS], vaccines_enabled : bool, vaccines_params : list[any]  ) -> None:
-        print("current_preset")
         self.current_preset = PRESETS_NAMES.NONE.value
         self.symulation_name = ""
         final_modifs = self.generate_modif( modifs, vaccines_enabled, vaccines_params )
