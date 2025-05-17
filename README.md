@@ -87,5 +87,19 @@ A few parameters in the app are randomized, so results can be really different. 
  * Minimal number of days to lose resistance to sickness and Maximal number of days to lose resistance to sickness - output of that is a randomized value between them inclusively on both sides
  * Simulation of meeting is a randomized value to determine how many people we are meeting depending on the parameter (Chance to meet), and after getting the number of people we once more randomly check if we infect them with the parameter (Chance to infect while meeting)
 
+## Presets
 
+Every app version has a few presets that can be used to simulate real-life epidemics or pandemics.
 
+List of presets:
+* PLAGUE - simulation of the Black Death in Europe from 1346 to 1353
+* SPANISH_FLU - simulation of the flu that took place in Europe at the end of WW1
+* COVID - simulation of COVID in recent years
+* VON_ECONOMO_ENCEPHALITIS - not very well-known epidemic taking place during the Spanish flu epidemic
+
+## Interpretation Of Results
+
+Results are shown in a few places:
+* Plot - shows the number of infected people (y-axis) by days (x-axis)
+* Pie chart - shows how many times an epidemic started, ended, or was stable. Stable means that it was not recognized as an epidemic but also never ended
+* Text above the pie chart - shows the number of people that died during this simulation. It's only an average from all simulations
