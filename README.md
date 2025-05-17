@@ -22,8 +22,8 @@ Every version is different from each other, so each version has its own readme o
 
 If you want, you can also check releases that are provided for every version:
   * [Console](https://github.com/QG1414/OutbreakLab/releases/tag/Console_Version)
-  * [Visual](https://github.com/QG1414/OutbreakLab/releases/tag/Visual_Version)
-  * [Exe](https://github.com/QG1414/OutbreakLab/releases/tag/Exe_Version)
+  * [Visual](https://github.com/QG1414/OutbreakLab/releases/tag/VisualVersionRelease)
+  * [Exe](https://github.com/QG1414/OutbreakLab/releases/tag/ExeVersionRelease)
 
 ## Cuda Information
 
