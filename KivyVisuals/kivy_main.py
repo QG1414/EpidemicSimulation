@@ -17,8 +17,13 @@ from KivyVisuals.KivySubElements.main.KivyMain import PlagueMainScreen
 from KivyVisuals.KivySubElements.loading.KivyLoading import Loading
 from KivyVisuals.KivySubElements.settings.KivySettings import CustomSettings
 from KivyVisuals.KivySubElements.presets.KivyPresets import SelectPreset
+from helper import resource_path
 
 class PlagueApp(App):
+
+    @staticmethod
+    def resource_path_app(relative_path):
+        return resource_path(relative_path)
 
     def __init__( self, sd : SymulationData,  **kwargs ) -> None:
         self.sd = sd

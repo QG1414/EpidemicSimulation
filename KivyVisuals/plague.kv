@@ -17,7 +17,7 @@
         Rectangle:
             pos: self.pos
             size: self.size
-            source: r"KivyVisuals\images\mainScreenBackground.png"
+            source: app.resource_path_app("KivyVisuals/images/mainScreenBackground.png")
 
     on_enter:
         root.current_preset = root.sd.current_preset

@@ -24,10 +24,9 @@ class CustomSettings(BaseScreen):
         }
 
         self.modifiersValuesVisual : tuple[MODIF_LEVELS] = tuple( self.modifiersDict.keys() )
-        self.generate_ids()
 
     
-    def generate_ids( self ) -> None:
+    def setup_ids( self, *args ) -> None:
         self.generation_params : dict[any, tuple[type, any]] = {
             self.ids.generationSize : (int, self.sd.gd.generation_size), 
             self.ids.curingTimeMin : (int, self.sd.gd.curing_time_min) , 
@@ -56,7 +55,7 @@ class CustomSettings(BaseScreen):
     #region OnStartSetup 
 
     def setup_data( self ) -> None:
-        self.generate_ids()
+        self.setup_ids()
         current_data, modif = self.sd.get_current_data()
         self.setup_base_params( current_data )
         self.setup_modif_params( modif )
