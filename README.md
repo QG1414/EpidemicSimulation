@@ -29,4 +29,4 @@ Also, the first time installing or launching the app may take longer due to depe
 
 ## Requirements
 For this app version, you don't need Python or any libraries—just run the installer or run the EXE from the ZIP, and everything should work.
-The only exception is CUDA. If CUDA is not working, refer to this [page](https://github.com/QG1414/OutbreakLab/tree/VisualVersion?tab=readme-ov-file#visualas-and-what-they-do)
+The only exception is CUDA. If CUDA is not working, refer to this [page](https://github.com/QG1414/OutbreakLab/blob/main/README.md#cuda-information)
