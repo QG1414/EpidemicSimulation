@@ -23,10 +23,10 @@ class PathsGeneratorCalculus:
         self.population_probabilities : np.ndarray[float] = np.array(list(population.values()))
         self.created_generation : GenerationData = created_generation
         self.__update_modifiers(**kwargs)
-        self.force_cancel = False
+        self.force_cancel : bool = False
         self.reset_data( enable_cuda )
 
-    def reset_data( self, enable_cuda ):
+    def reset_data( self, enable_cuda : bool ) -> None:
         self.enable_cuda : bool = enable_cuda
         self.generations : list[Generation] = []
         for _ in range(self.k):
@@ -72,7 +72,7 @@ class PathsGeneratorCalculus:
 
     #region baches
 
-    def get_safe_batch_size( self, reserved_mem = 300 * 1024 * 1024 ):
+    def get_safe_batch_size( self, reserved_mem : int = 300 * 1024 * 1024 ) -> int:
         try:
             free_mem, _ = cp.cuda.runtime.memGetInfo()
             usable_mem = max(0, free_mem - reserved_mem)
@@ -150,7 +150,7 @@ class PathsGeneratorCalculus:
         self.generations[main_generation].add_infection_info(generation_number, total_sum)
         return self.generations[main_generation].infecting_population
 
-    def __random_path( self, n:int, main_generation:int, visuals ) -> tuple[int, int]:
+    def __random_path( self, n:int, main_generation:int, visuals : any ) -> tuple[int, int]:
         x = [0]
         y = [1]
 
@@ -165,7 +165,7 @@ class PathsGeneratorCalculus:
             visuals.quick_update(main_generation * n + i)
         return x, y
 
-    def generate_paths( self, n:int, visuals ) -> list[Generation]:
+    def generate_paths( self, n:int, visuals : any ) -> list[Generation]:
         print(f"start generating simulations")
         for i in range(self.k):
             self.generations[i].add_path(self.__random_path(n,i, visuals))
@@ -180,7 +180,7 @@ class PathsGeneratorCalculus:
 
 class PathsGeneratorVisual:
 
-    lines_colors = [
+    lines_colors : list[str] = [
         "#62897E", "#3F5855", "#1D3130", "#293C3E", "#4A5E65",
         "#737F85", "#3F5855", "#8CDDCE", "#54A08C", "#368772",
         "#2A3338", "#354044", "#3C464F", "#515554", "#868A8E",
@@ -218,7 +218,7 @@ class PathsGeneratorVisual:
 
     #region hardVisuals
 
-    def set_scale( self, min : int , max : int, additional_top_max : int = 20, linthresh : float = 0.5, log = False) -> None:
+    def set_scale( self, min : int , max : int, additional_top_max : int = 20, linthresh : float = 0.5, log : bool = False) -> None:
         self.ax[0].set_xlim(0, self.n)
         self.ax[0].set_ylim(min,max+additional_top_max)
         self.__set_scale_log(log, linthresh)
@@ -304,7 +304,7 @@ class PathsGeneratorVisual:
     
     #endregion Animation
 
-    def restart_plot( self, symulation_name : str ):
+    def restart_plot( self, symulation_name : str ) -> None:
         self.preset_name = symulation_name
         self.__create_visual_vars()
         self.__base_visuals()

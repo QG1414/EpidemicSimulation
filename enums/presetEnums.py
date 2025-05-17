@@ -8,11 +8,11 @@ class PRESETS( Enum ):
     NONE = ""
 
 class PRESETS_NAMES( Enum ):
-    PLAGUE = "plague"
-    SPANISH_FLU = "spanish flu"
-    COVID = "covid"
+    PLAGUE = "Plague"
+    SPANISH_FLU = "Spanish flu"
+    COVID = "Covid"
     VON_ECONOMO_ENCEPHALITIS = "Von Economo's Encephalitis"
-    NONE = "none"
+    NONE = "None"
 
 class PRESETS_BASE( Enum ):
     CPU = "presets\\cpu\\"

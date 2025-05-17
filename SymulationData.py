@@ -16,7 +16,7 @@ class SymulationPreData:
     k : int
     p : int
 
-    def __init__( self, chance_to_meet : dict[int, float], n : int, k : int, p : int ):
+    def __init__( self, chance_to_meet : dict[int, float], n : int, k : int, p : int ) -> None:
         self.chance_to_meet = chance_to_meet
         self.base_chance_to_meet = chance_to_meet.copy()
         self.n = n
@@ -36,19 +36,19 @@ class SymulationData:
     def __set_all_data( self, gd : GenerationData, spd : SymulationPreData, modif : dict[str, any], enable_cuda : bool = False, symulation_name : str = "", use_log : bool = True , use_animation : bool = True , current_preset_name : str = PRESETS_NAMES.NONE.value ) -> None:
         self.gd : GenerationData = gd
         self.spd : SymulationPreData = spd
-        self.use_log = use_log
-        self.use_animation = use_animation
+        self.use_log : bool = use_log
+        self.use_animation : bool = use_animation
         self.modif : dict[str, any] = modif
-        self.enable_cuda = enable_cuda
-        self.symulation_name = symulation_name
-        self.force_cancel_var = False
-        self.current_preset = current_preset_name
+        self.enable_cuda : bool = enable_cuda
+        self.symulation_name : str = symulation_name
+        self.force_cancel_var : bool = False
+        self.current_preset : str = current_preset_name
         self.set_cuda( enable_cuda )
 
         self.path_generator : PathsGeneratorCalculus = PathsGeneratorCalculus(spd.k, spd.p, spd.chance_to_meet, gd, self.enable_cuda, **modif)
         self.path_generator_visual : PathsGeneratorVisual = PathsGeneratorVisual(spd.n,spd.k, symulation_name )
 
-        self.return_data = [
+        self.return_data : list[any] = [
             self.gd.generation_size, 
             self.gd.curing_time_min,
             self.gd.curing_time_max,
@@ -65,7 +65,7 @@ class SymulationData:
 
     #region import_preset
 
-    def import_preset_not_static(self, import_path : str, preset_name : str ) -> any:
+    def import_preset_not_static( self, import_path : str, preset_name : str ) -> any:
         cuda_available = cp.cuda.runtime.getDeviceCount() > 0
 
         if self.enable_cuda and cuda_available != self.enable_cuda:
@@ -150,8 +150,11 @@ class SymulationData:
 
 #region getters
 
-    def get_current_data(self) -> tuple[list[any], dict[str,any]]:
+    def get_current_data( self ) -> tuple[list[any], dict[str,any]]:
         return (self.return_data, self.modif)
+    
+    def get_vaccines_params( self, name : VACCINES_PARAMS ) -> int | float:
+        return self.modif.get(VACCINES_PARAMS.VACCINES_PARAM.value).get(name)
     
 #endregion getters
 
@@ -159,12 +162,13 @@ class SymulationData:
 #region setters
 
     def update_all_data( self, gd : GenerationData, spd : SymulationPreData, modifs : list[MODIF_LEVELS], vaccines_enabled : bool, vaccines_params : list[any]  ) -> None:
+        print("current_preset")
         self.current_preset = PRESETS_NAMES.NONE.value
         self.symulation_name = ""
         final_modifs = self.generate_modif( modifs, vaccines_enabled, vaccines_params )
         self.__set_all_data( gd, spd, final_modifs, self.enable_cuda, self.symulation_name, self.use_log, self.use_animation, self.current_preset )
     
-    def generate_modif(self, modif : list[MODIF_LEVELS], vaccines_enabled : bool, vaccines_params : list[any] ):
+    def generate_modif( self, modif : list[MODIF_LEVELS], vaccines_enabled : bool, vaccines_params : list[any] ) -> dict[any]:
         final_modif = {}
         keys = [MODIFIERS.HYGIENE.value, MODIFIERS.POPULATION_CONTROL.value, MODIFIERS.HEALTHCARE.value]
         for index, key in enumerate( keys ):
@@ -172,7 +176,7 @@ class SymulationData:
 
         return {**final_modif, **self.generate_vaccines_modif(vaccines_enabled, vaccines_params)}
 
-    def generate_vaccines_modif(self, vaccines_enabled, vaccines_params):
+    def generate_vaccines_modif( self, vaccines_enabled : bool, vaccines_params : list[any] ) -> dict[any]:
         vacc_modif = {MODIFIERS.VACCINES.value : (MODIF_ENABLED.ENABLED if vaccines_enabled else MODIF_ENABLED.DISABLED) }
         vacc_params = {VACCINES_PARAMS.POPULATION_VACCINATED : 0, VACCINES_PARAMS.DAY_OF_VACCINES : 0}
 
@@ -183,12 +187,9 @@ class SymulationData:
         vacc_modif.setdefault(VACCINES_PARAMS.VACCINES_PARAM.value, vacc_params)
         return vacc_modif
     
-    def set_cuda( self, enable_cuda : bool, update_preset : bool = False, force_error : bool = False ) -> bool: #TODO remove force_error in production
+    def set_cuda( self, enable_cuda : bool, update_preset : bool = False ) -> bool:
         self.enable_cuda = enable_cuda
         cuda_available = cp.cuda.runtime.getDeviceCount() > 0
-
-        if force_error:
-            cuda_available = False
 
         if enable_cuda and enable_cuda != cuda_available:
             print( "ERROR! Cuda isn't detected on device so it was autamaticly disabled" ) 
@@ -205,7 +206,7 @@ class SymulationData:
 
 #region load_data
 
-    def start_load_data(self, visuals):
+    def start_load_data( self, visuals ) -> None:
         time.sleep(0.1)
         self.visuals = visuals
         self.__generate_lines()
@@ -239,14 +240,14 @@ class SymulationData:
 #region restart_data
 
 
-    def force_cancel(self):
+    def force_cancel( self ) -> None:
         self.force_cancel_var = True
         self.path_generator.force_cancel = True
     
-    def restart_data(self):
+    def restart_data( self ) -> None:
         self.path_generator.reset_data( self.enable_cuda )
 
-    def restart_plot(self):
+    def restart_plot( self ) -> None:
         self.path_generator_visual.restart_plot( self.symulation_name )
         self.__set_scale()
     

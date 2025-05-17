@@ -5,8 +5,8 @@
     background_color: ''
     background_color: 0,0,0,0
 
-    color: 0,0,0,1
-    font_size: "20dp"
+    color: hex("#4d7172")
+    font_size: "30dp"
     canvas.before:
 
         Color:
@@ -15,6 +15,13 @@
         Rectangle:
             pos: self.pos
             size: self.size
+
+    canvas.after:
+        Color:
+            rgba: hex("#4d7172")
+        Rectangle:
+            pos: self.x, self.y
+            size: self.width, 0.4
 
 
 <CustomSpinnerDropdown@DropDown>:
@@ -27,8 +34,7 @@
 
 <CustomSpinner>
     
-    #end_pos: self.pos[0] + self.width
-    background_color: 0,0,0,0  #c1cabbff
+    background_color: 0,0,0,0
     background_normal: ''
     color: 0,0,0,1
     font_size: "30dp"
@@ -36,7 +42,78 @@
     valign: "center"
     text_size: self.size
 
+    canvas.before:
 
+        Color:
+            rgba: hex("#e3ecddcc") if self.state == "down" else hex("#e3ecddff") #e3ecddff
+        
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [25, 25, 0, 0]
+
+    canvas:
+        Color:
+            rgba: hex("#c1cabbff")
+
+        Triangle:
+            points: [root.end_pos_x, self.end_pos_y, root.end_pos_x, self.end_pos_y + self.pos_diff, root.end_pos_x - self.pos_diff, self.end_pos_y]
+
+    canvas.after:
+        Color:
+            rgba: hex("#4d7172") if self.is_open else hex("#00000000")
+        Rectangle:
+            pos: self.x, self.y
+            size: self.width, 0.4
+
+    dropdown_cls: Factory.CustomSpinnerDropdown
+    option_cls: Factory.CustomSpinnerOptions
+
+
+
+
+
+
+<CustomSpinnerFlatOptions@SpinnerOption>:
+    background_color: ''
+    background_color: 0,0,0,0
+
+    color: hex("#4d7172")
+    font_size: "15dp"
+    canvas.before:
+
+        Color:
+            rgba: hex("#e3ecddcc") if self.state == "down" else hex("#e3ecddff")
+        
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    canvas.after:
+        Color:
+            rgba: hex("#4d7172")
+        Rectangle:
+            pos: self.x, self.y
+            size: self.width, 0.4
+
+
+<CustomSpinnerFlatDropdown@DropDown>:
+    max_height: 300
+    bar_width: 20
+    bar_color: 1,0,0,1
+    bar_innactive_color: 1,0,0,1
+    effect_cls: 'ScrollEffect'
+    scroll_type: ['bars', 'content']
+
+<CustomSpinnerFlat>
+    
+    background_color: 0,0,0,0
+    background_normal: ''
+    color: 0,0,0,1
+    font_size: "15dp"
+    halign: "center"
+    valign: "center"
+    text_size: self.size
 
     canvas.before:
 
@@ -54,10 +131,12 @@
         Triangle:
             points: [root.end_pos_x, self.end_pos_y, root.end_pos_x, self.end_pos_y + self.pos_diff, root.end_pos_x - self.pos_diff, self.end_pos_y]
 
-    # on_press:
-    #     print("press",self.state)
-    # on_release:
-    #     print("release", self.state)
+    canvas.after:
+        Color:
+            rgba: hex("#4d7172") if self.is_open else hex("#00000000")
+        Rectangle:
+            pos: self.x, self.y
+            size: self.width, 0.4
 
-    dropdown_cls: Factory.CustomSpinnerDropdown
-    option_cls: Factory.CustomSpinnerOptions
+    dropdown_cls: Factory.CustomSpinnerFlatDropdown
+    option_cls: Factory.CustomSpinnerFlatOptions

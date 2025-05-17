@@ -20,14 +20,14 @@ from KivyVisuals.KivySubElements.presets.KivyPresets import SelectPreset
 
 class PlagueApp(App):
 
-    def __init__( self, sd : SymulationData,  **kwargs ):
+    def __init__( self, sd : SymulationData,  **kwargs ) -> None:
         self.sd = sd
         super().__init__( **kwargs )
 
-    def build(self):
+    def build( self ) -> any:
         return  self.__build_screen_manager()
     
-    def __build_screen_manager(self):
+    def __build_screen_manager( self ) -> ScreenManager:
         pos_adj = PositionAdjuster( Window.width, Window.height, Window.left, Window.top )
         base_screen = BaseScreen( self.sd, pos_adj )
 
@@ -39,13 +39,9 @@ class PlagueApp(App):
         return screen_manager
 
 class MainApp:
-    def __init__(self, sd : SymulationData ):
-        self.__set_basic_params()
+    def __init__( self, sd : SymulationData ) -> None:
         self.pg_app = PlagueApp(sd)
     
-    def __set_basic_params(self):
-        pass
-
-    def start_app(self):
+    def start_app( self ) -> None:
         self.pg_app.run() 
 

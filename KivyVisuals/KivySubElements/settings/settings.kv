@@ -1,25 +1,33 @@
 <CustomSettings>:
     on_enter: root.setup_data()
 
+
+    canvas.before:
+        Color:
+            rgba: (1,1,1,1)
+
+        Rectangle:
+            pos: self.pos
+            size: self.size
+            source: r"KivyVisuals\images\tlo.png"
+
     BoxLayout:
         orientation:'vertical'
+        padding: [0,0,0,20]
+        spacing: -15
         
-        Button:
-            text: 'back'
-            on_press:
-                root.manager.transition.direction = "right"
-                root.manager.transition.duration = 0.2
-                root.manager.current = "plague_main_screen"
-
         Label:
             text:'Population Settings'
-            font_size: 25
+            font_size: 20
         
         BoxLayout:
+            size_hint_y: .35
             orientation: 'horizontal'
+            padding: [0,-10, 0, 0]
 
             BoxLayout:
                 orientation: 'vertical'
+                spacing: "5dp"
 
                 Label:
                     text:'Generation size'
@@ -30,26 +38,13 @@
                     id: generationSize
                     hint_text: 'Generation Size'
                     input_filter: "int"
+                    on_focus: root.checkCorrectValuesInt(self, 1000000000)
                     multiline: False
-            
-            BoxLayout:
-                orientation: 'vertical'
-
-                Label:
-                    text:'Chance to meet'
-                    font_size: 15
-                    size_hint: (1,0.2)
-
-                TextInput:
-                    id: ChanceToMeet
-                    hint_text: 'Chance to meet people'
-                    multiline: True
-        
-        BoxLayout:
-            orientation:'horizontal'
 
             BoxLayout:
                 orientation:'vertical'
+                spacing: "5dp"
+
                 Label:
                     text:'Days to simulate'
                     font_size: 15
@@ -59,10 +54,12 @@
                     id: daysToSimulate
                     hint_text: 'Days to simulate'
                     input_filter: "int"
+                    on_focus: root.checkCorrectValuesInt(self, 200)
                     multiline: False
             
             BoxLayout:
                 orientation:'vertical'
+                spacing: "5dp"
                 Label:
                     text:'Number of simulations'
                     font_size: 15
@@ -72,36 +69,64 @@
                     id: simulationsToRun
                     hint_text: 'number of simulations to run'
                     input_filter: "int"
+                    on_focus: root.checkCorrectValuesInt(self, 75)
                     multiline: False
+
+            
 
         Label:
             text:'Sickness Settings'
-            font_size: 25
+            font_size: 20
         
         BoxLayout:
-            orientation:'vertical'
+            orientation: 'horizontal'
+            padding: [0,-10, 0, 0]
+            size_hint_y: 0.8
 
-            Label:
-                text:'Chance to infect while meeting'
-                font_size: 15
-                size_hint: (1,0.2)
+            BoxLayout:
+                orientation:'vertical'
+                spacing: "5dp"
 
-            TextInput:
-                id: chanceToInfect
-                hint_text: 'chance to infect while meeting'
-                input_filter: "float"
-                multiline: False
+                Label:
+                    text:'Chance to infect while meeting (0-1)'
+                    font_size: 15
+                    size_hint: (1,0.2)
+
+                TextInput:
+                    id: chanceToInfect
+                    hint_text: 'chance to infect while meeting (0-1)'
+                    input_filter: "float"
+                    multiline: False
+                    on_focus: root.checkCorrectValuesFloat(self, 1)
+
+            BoxLayout:
+                orientation: 'vertical'
+                spacing: "5dp"
+
+                Label:
+                    text:'Chance to meet'
+                    font_size: 15
+                    size_hint: (1,0.2)
+
+                TextInput:
+                    id: ChanceToMeet
+                    hint_text: 'Chance to meet people'
+                    on_focus: root.checkChanceToMeet(self)
+                    multiline: True
 
         
         Label:
             text:'Curing Settings'
-            font_size: 25
+            font_size: 20
         
         BoxLayout:
             orientation:'horizontal'
+            padding: [0,-10, 0, 0]
+            size_hint_y: .35
 
             BoxLayout:
                 orientation:'vertical'
+                spacing: "5dp"
 
                 Label:
                     text:'Minimal number of days to lose sickness'
@@ -112,10 +137,12 @@
                     id: curingTimeMin
                     hint_text: 'Minimal number of days to lose sickness'
                     input_filter: "int"
+                    on_focus: root.checkCorrectValuesInt(self, 0, show_to_big_warning = False)
                     multiline: False
 
             BoxLayout:
                 orientation:'vertical'
+                spacing: "5dp"
 
                 Label:
                     text:'Maximal number of days to lose sickness'
@@ -126,32 +153,38 @@
                     id: curingTimeMax
                     hint_text: 'Maximal number of days to lose sickness'
                     input_filter: "int"
+                    on_focus: root.checkCorrectValuesInt(self, 0, show_to_big_warning = False)
                     multiline: False
         
-        BoxLayout:
-            orientation:'vertical'
+            BoxLayout:
+                orientation:'vertical'
+                spacing: "5dp"
 
-            Label:
-                text:'Chance to cure from sickness'
-                font_size: 15
-                size_hint: (1,0.2)
+                Label:
+                    text:'Chance to cure from sickness (0-1)'
+                    font_size: 15
+                    size_hint: (1,0.2)
 
-            TextInput:
-                id: curingChance
-                hint_text: 'Chance to cure from sickness'
-                input_filter: "float"
-                multiline: False
+                TextInput:
+                    id: curingChance
+                    hint_text: 'Chance to cure from sickness (0-1)'
+                    input_filter: "float"
+                    multiline: False
+                    on_focus: root.checkCorrectValuesFloat(self, 1)
 
 
         Label:
             text:'resistance Settings'
-            font_size: 25
+            font_size: 20
         
         BoxLayout:
             orientation:'horizontal'
+            padding: [0,-10, 0, 0]
+            size_hint_y: .35
 
             BoxLayout:
                 orientation:'vertical'
+                spacing: "5dp"
 
                 Label:
                     text:'Minimal number of days to lose resistance to sickness'
@@ -162,10 +195,12 @@
                     id: resistanceTimeMin
                     hint_text: 'Minimal number of days to lose resistance to sickness'
                     input_filter: "int"
+                    on_focus: root.checkCorrectValuesInt(self, 0, show_to_big_warning = False)
                     multiline: False
             
             BoxLayout:
                 orientation: 'vertical'
+                spacing: "5dp"
         
                 Label:
                     text:'Maximal number of days to lose resistance to sickness'
@@ -176,24 +211,29 @@
                     id: resistanceTimeMax
                     hint_text: 'Maximal number of days to lose resistance to sickness'
                     input_filter: "int"
+                    on_focus: root.checkCorrectValuesInt(self, 0, show_to_big_warning = False)
                     multiline: False
 
         Label:
             text:'Modifiers'
-            font_size: 25
+            font_size: 20
         
         BoxLayout:
             orientation:'horizontal'
+            padding: [0,-10, 0, 0]
+            spacing: "3dp"
+            size_hint_y: .4
 
             BoxLayout:
                 orientation: 'vertical'
+                spacing: "5dp"
 
                 Label:
                     text:'Hygiene modifier'
                     font_size: 15
                     size_hint: (1,0.2)
 
-                Spinner:
+                CustomSpinnerFlat:
                     id: hygieneModif
                     text: "NORMAL"
                     values: root.modifiersValuesVisual
@@ -201,45 +241,56 @@
 
             BoxLayout:
                 orientation: 'vertical'
+                spacing: "5dp"
 
                 Label:
                     text:'population control modifier'
                     font_size: 15
                     size_hint: (1,0.2)
 
-                Spinner:
+                CustomSpinnerFlat:
                     id: popModif
                     text: "NORMAL"
                     values: root.modifiersValuesVisual
             
             BoxLayout:
                 orientation: 'vertical'
+                spacing: "5dp"
 
                 Label:
                     text:'healthcare modifier'
                     font_size: 15
                     size_hint: (1,0.2)
 
-                Spinner:
+                CustomSpinnerFlat:
                     id: healthModif
                     text: "NORMAL"
                     values: root.modifiersValuesVisual
         
-        GridLayout:
-            cols: 2
+        BoxLayout:
+            orientation: "horizontal"
+            size_hint_y: 0.8
+            padding: [150,20,230,10]
 
             Label:
                 text:'Vaccines created'
                 font_size: 20
-
-            CheckBox:
+                valign: 'middle'
+                halign: 'left'
+                size_hint_x: 1
+                text_size: self.size
+ 
+            BiggerCheckbox:
+                size: 35, 35
                 active: root.vaccines
                 on_active:
                     root.vaccines = self.active
 
         GridLayout:
+            padding: [0,0,0,40]
             rows: 2
             cols: 2
+
             visible: root.vaccines
             size_hint_x: 1 if self.visible else 0
             opacity: 1 if self.visible else 0
@@ -257,17 +308,34 @@
                 id: populationVaccinated
                 hint_text: 'percentage of population vaccinated (0-1)'
                 input_filter: 'float'
+                multiline: False
+                on_focus: root.checkCorrectValuesFloat(self, 1)
 
             TextInput:
                 id: dayOfVaccinesCreation
                 hint_text: 'day of vaccines creation'
                 input_filter: 'int'
+                multiline: False
+                on_focus: root.checkCorrectValuesInt(self, 0, show_to_big_warning = False)
 
 
-        Button:
-            text: 'Save'
-            on_press:
-                root.save_changes()
-                root.manager.transition.direction = "right"
-                root.manager.transition.duration = 0.2
-                root.manager.current = "plague_main_screen"
+        BoxLayout:
+            size_hint_y: .6
+            orientation: "horizontal"
+            spacing: "250dp"
+
+            RoundedButtonInverse:
+                text: 'back'
+                on_press:
+                    root.manager.transition.direction = "right"
+                    root.manager.transition.duration = 0.2
+                    root.manager.current = "plague_main_screen"
+
+            RoundedButton:
+                size_hint: 1, 1
+                text: 'Save'
+                on_press:
+                    root.save_changes()
+                    root.manager.transition.direction = "right"
+                    root.manager.transition.duration = 0.2
+                    root.manager.current = "plague_main_screen"

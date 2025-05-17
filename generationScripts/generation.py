@@ -26,12 +26,20 @@ class InfectionData:
 class GenerationData:
     def __init__( self, generation_size:int, epidemy_treshold:int, curing_time_min:int, curing_time_max : int, curing_prob:float, resTime_min : int, resTime_max : int ) -> None:
         self.generation_size : int = generation_size
+        
+        if curing_time_min > curing_time_max:
+            (curing_time_min, curing_time_max) = (curing_time_max, curing_time_min)
         self.curing_time_min : int = curing_time_min
         self.curing_time_max : int = curing_time_max
         self.curing_prob : float = curing_prob
         self.base_curing_prob: float = curing_prob
+
+
+        if resTime_min > resTime_max:
+            (resTime_min, resTime_max) = (resTime_max, resTime_min)
         self.resTime_min : int = resTime_min
         self.resTime_max : int = resTime_max
+        
         self.epidemy_treshold : int = epidemy_treshold
         self.have_vacc : bool = False
         self.vacc_population : float = 0
@@ -72,19 +80,19 @@ class Generation:
         self.resTime_max : int = resTime_max
         self.__randomize_params()
     
-    def __randomize_params(self) -> None:
+    def __randomize_params( self ) -> None:
         self.curing_time : int = np.random.randint(self.curing_time_min, self.curing_time_max + 1)
         self.resistant_time : int = np.random.randint(self.resTime_min, self.resTime_max + 1)
 
     def __set_epidemy_vars( self, epidemy_treshold : int ) -> None:
         self.epidemy_treshold : int = epidemy_treshold
     
-    def __set_vaccines_vars( self, have_vacc : bool, vacc_day : int, vacc_population : float ):
+    def __set_vaccines_vars( self, have_vacc : bool, vacc_day : int, vacc_population : float ) -> None:
         self.have_vacc = have_vacc
         self.vacc_day = vacc_day
         self.vacc_population = vacc_population
     
-    def __reset_timeline( self ):
+    def __reset_timeline( self ) -> None:
         self.epidemy_states : list[EpidemyState] = []
         self.infection_timeline : list[InfectionData] = [InfectionData(1, 0, self.curing_time)]
         self.resistance_timeline : list[InfectionData] = []

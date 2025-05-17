@@ -16,21 +16,27 @@
         spacing: 40
 
         Label:
-            text: f"Current preset: {root.current_name}"
+            markup: True
+            text: f"Current preset: [color=#6ef68f]{root.current_name}[/color]"
             halign: 'center'
             valign: 'middle'
-            font_size: "60dp"
+            font_size: "45dp"
+            padding: [ 0, 0, 0, 50 ]
         
-        CustomSpinner:
-            size_hint: 0.5, 0.2
-            pos_hint: {"center_y":0.5, "center_x" : 0.5}
-            id: currentPresetSet
-            text: root.current_name
-            values: root.presets
+        FloatLayout:
+            size_hint_y: None
+            height: "100dp"
+
+            CustomSpinner:
+                size_hint: 0.7, 1
+                pos_hint: {"center_x" : 0.5, "y" : 1}
+                id: currentPresetSet
+                text: root.current_name
+                values: root.presets
 
         BoxLayout:
             orientation: "horizontal"
-            spacing: 100
+            spacing: 200
     
             RoundedButtonInverse:
                 text: 'Back'
