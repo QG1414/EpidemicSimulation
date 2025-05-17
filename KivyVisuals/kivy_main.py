@@ -2,6 +2,7 @@ from kivy.config import Config
 Config.set('graphics', 'resizable', False)
 Config.set('graphics', 'width', '1000')
 Config.set('graphics', 'height', '800')
+Config.set('input', 'mouse', 'mouse,multitouch_on_demand')
 Config.write()
 
 from kivy.app import App
@@ -19,6 +20,7 @@ from KivyVisuals.KivySubElements.settings.KivySettings import CustomSettings
 from KivyVisuals.KivySubElements.presets.KivyPresets import SelectPreset
 
 class PlagueApp(App):
+    icon = 'KivyVisuals\images\Icon.png'
 
     def __init__( self, sd : SymulationData,  **kwargs ) -> None:
         self.sd = sd
