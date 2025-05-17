@@ -3,29 +3,29 @@ Author: Kacper Potaczała
 
 
 ## Basic Info
-Console version is the simpliest version of this app and also not recomended to use because it lacks security measures for incorrect values. To use this version you need this libraries and python installed [here](#requirements)
+The console version is the simplest version of this app and also not recommended to use because it lacks security measures for incorrect values. To use this version, you need these libraries and Python installed [here](#requirements)
 
-All of the parameters that can be changed are located in the main.py file from line 10 to line 38
-And all presets name are listed [here]
+All of the parameters that can be changed are located in the main.py file from line 10 to line 38.
+All preset names are listed [here](https://github.com/QG1414/OutbreakLab?tab=readme-ov-file#presets)
 
 ## Usage
-To run this app download zip version of code from this [release](https://github.com/QG1414/OutbreakLab/releases/tag/Console_Version) or copy using git, when this is done make sure you have all libraries installed 
+To run this app, download the ZIP version of the code from this [release](https://github.com/QG1414/OutbreakLab/releases/tag/Console_Version) or copy using Git. When this is done, make sure you have all the required libraries installed.
 
-On start there is selected preset Covid on more info about presets check [here]
+By default, the selected preset is COVID. For more info about presets, check [here](https://github.com/QG1414/OutbreakLab?tab=readme-ov-file#presets)
 
-If you want to change to different preset modifie line 60 PRESETS.<Name of preset>.value
+If you want to switch to a different preset, modify line 60: PRESETS.<Name of preset>.value
 
-If you don't want to use presets and insert your own values then comment line 60 and uncomment line 53 and 54
-Then you can modifi values above or leave them as they are and run the code.
+If you don't want to use presets and want to insert your own values, then comment out line 60 and uncomment lines 53 and 54.
+Then you can modify the values above, or leave them as they are, and run the code.
 
-In console you should see info that symulation started and how many steps are done.
+In the console, you should see info that the simulation started and how many steps are completed.
 
-When loading finishes then plot should be displayed that shows number of infected people and a pie chart showing how many times there has been epidemy or it ended or is still going but its not a epidemy (Stable) on more about it read [here]
+When loading finishes, a plot should be displayed showing the number of infected people and a pie chart showing how many times there has been an epidemic, or it ended, or is still going but it's not an epidemic (Stable). For more about this, read [here](https://github.com/QG1414/OutbreakLab?tab=readme-ov-file#interpretation-of-results)
 
 ## Name Changes
-In console version some parameters have changed name and you should know which value is wchich. For whole list check [here](https://github.com/QG1414/OutbreakLab?tab=readme-ov-file#parameters)
-here are all changes:
+In the console version, some parameters have changed names and you should know which value is which. For the full list, check [here](https://github.com/QG1414/OutbreakLab?tab=readme-ov-file#parameters)
 
+Here are all the changes:
 * generation_size == Generation Size
 * chance_to_meet_people == Chance to meet
 * n == Days to simulate
@@ -46,30 +46,30 @@ here are all changes:
 
 ## Requirements
 Here are some requirements:
-App was builded on python version 3.12.2 and it will work on this version.
-Versions before 3.6 will not work for sure because of f format in a lot of places so try to use versions: [3.10.0 - 3.13.0] but best version is 3.12.2
+The app was built on Python version 3.12.2 and will work on this version.
+Versions before 3.6 will not work for sure because of f-strings used in many places. Try to use versions between [3.10.0 - 3.13.0], but the best version is 3.12.2.
 
 ## Libraries
-Libraries that are needed for correct work of app:
+Libraries that are needed for correct operation of the app:
 * matplotlib
 * pandas
 * numpy
 * cupy
 
 ## Installation
-for matplotlib, pandas and numpy we use
+For matplotlib, pandas, and numpy, use:
 
 python -m pip install matplotlib pandas numpy
 
-Using cuda is more complicated app was created on Cuda 12.8 but you should check if you have cuda and what version to do it run command
+Using CUDA is more complicated. The app was created on CUDA 12.8, but you should check if you have CUDA and what version. To do this, run the command:
 
 nvidia-smi
 
-and then install
+Then install:
 
 python -m pip install cupy-cuda{version}x
 
-where version is the version of our cude so for example for Cuda 12.8
+where version is the version of your CUDA. For example, for CUDA 12.8:
 
 python -m pip install cupy-cuda12x
 
