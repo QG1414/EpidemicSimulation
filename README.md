@@ -1,7 +1,8 @@
-# English version
-## Outbreak Lab
+# Outbreak Lab
 Author: Kacper Potaczała
 
+
+## Basic Info
 It's an app that simulates pandemic outbreaks depending on different parameter setups. You can view the number of infected people on a plot and check how many times during simulations a pandemic started and how many people died on average.
 
 If you want to check each parameter and what they do, they are listed [here](#parameters)
