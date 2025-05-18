@@ -27,6 +27,8 @@ If you want, you can also check releases that are provided for every version:
 
 ## Cuda Information
 
+**ATTENTION - EXE APP WILL NOT WORK WITH OTHER VERSIONS OF CUDA THEN VERSION 12.X**
+
 Every version of the app uses CUDA. This is only optional and can be disabled either by visual checkbox or by setting one parameter in the code to false. Nonetheless, the app was built on CUDA version 12.8 and it should work with this version. If you do not have this version, be careful when using the CUDA option, as it can block the app.
 
 Also, CUDA needs additional tools. For correct installation, refer to the NVIDIA documentation [here](https://docs.nvidia.com/cuda/cuda-installation-guide-microsoft-windows/)
