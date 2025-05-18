@@ -19,6 +19,8 @@ Then the visual app will show up. For the next steps, refer to [VisualVersion](h
 Visuals are the same as for the Visual Version, and you can check them [here](https://github.com/QG1414/OutbreakLab/tree/VisualVersion?tab=readme-ov-file#visualas-and-what-they-do)
 
 ## Cuda set info
+**ATTENTION - EXE APP WILL NOT WORK WITH OTHER VERSIONS OF CUDA THEN VERSION 12.X**
+
 When using CUDA, sometimes it cannot be detected on a computer. If this happens, a notification will be displayed and CUDA will be automatically disabled.
 Additionally, clicking on Enable CUDA for the first time might cause a slight freeze because some dependencies that need to be installed dynamically will run.
 
